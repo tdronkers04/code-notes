@@ -1,3 +1,5 @@
+// THIS IS AN EXAMPLE OF HOW TO USE FETCH WITH A PROTECTED ROUTE...
+
 import { useState, useEffect } from "react";
 import { useAuth } from "@clerk/clerk-react";
 

@@ -16,10 +16,15 @@ const clerkPubKey = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
 
 function ProtectedPage() {
   return (
-    <div>
-      <h1>Protected Page</h1>
-      <UserButton />
-    </div>
+    <>
+      <SignedIn>
+        <h1>Protected Page</h1>
+        <UserButton />
+      </SignedIn>
+      <SignedOut>
+        <RedirectToSignIn />
+      </SignedOut>
+    </>
   );
 }
 
@@ -31,7 +36,12 @@ const router = createBrowserRouter([
   },
   {
     path: "sign-in",
-    element: <SignIn />,
+    element: <SignIn path="sign-in" redirectUrl="/snippets" />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "sign-up",
+    element: <SignUp path="sign-up" redirectUrl="/snippets" />,
     errorElement: <ErrorPage />,
   },
   {
