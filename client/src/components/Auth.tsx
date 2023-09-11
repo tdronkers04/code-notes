@@ -48,7 +48,7 @@ function Auth() {
   }
 
   return (
-    <div>
+    <div className="text-teal-600 bg-black">
       <h1>Data from API:</h1>
       <p>{JSON.stringify(data, null, 2)}</p>
     </div>
