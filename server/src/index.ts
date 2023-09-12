@@ -4,7 +4,9 @@ import {
   ClerkExpressWithAuth,
   LooseAuthProp,
   WithAuthProp,
+  users,
 } from '@clerk/clerk-sdk-node';
+import { prisma } from './utils/db';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -16,17 +18,39 @@ declare global {
 const app: Application = express();
 const port = process.env.PORT;
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Express + TypeScript Server!!!');
-});
-
 app.get(
-  '/protected-route',
-  ClerkExpressWithAuth({
-    // ...options
-  }),
-  (req: WithAuthProp<Request>, res: Response) => {
-    res.json(req.auth);
+  '/notes',
+  ClerkExpressWithAuth(),
+  async (req: WithAuthProp<Request>, res: Response) => {
+    const clerkUser = await users.getUser(req.auth.userId || '');
+    const match = await prisma.user.findUnique({
+      where: {
+        clerkId: clerkUser.id as string,
+      },
+    });
+
+    // if use does not exist in DB, create user
+    if (!match) {
+      await prisma.user.create({
+        data: {
+          clerkId: clerkUser.id || '',
+          email: clerkUser?.emailAddresses[0].emailAddress || '',
+        },
+      });
+    }
+
+    // query notes associated with user
+
+    const notes = await prisma.note.findMany({
+      where: {
+        userId: clerkUser.id,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    res.json(notes);
   },
 );
 

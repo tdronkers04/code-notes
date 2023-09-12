@@ -12,15 +12,15 @@ datasource db {
 }
 
 model User {
-  id        String        @id @default(uuid())
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  clerkId   String        @unique
-  email     String        @unique
-  entries   CodeSnippet[]
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  clerkId   String   @unique
+  email     String   @unique
+  notes     Note[]
 }
 
-model CodeSnippet {
+model Note {
   id        String    @id @default(uuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -33,13 +33,13 @@ model CodeSnippet {
 }
 
 model Analysis {
-  id        String      @id @default(uuid())
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   snippetId String
-  snippet   CodeSnippet @relation(fields: [snippetId], references: [id])
+  snippet   Note     @relation(fields: [snippetId], references: [id])
   language  String
-  summary   String      @db.Text
+  summary   String   @db.Text
 
   @@unique([snippetId])
 }
