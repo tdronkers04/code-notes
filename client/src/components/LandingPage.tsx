@@ -2,7 +2,7 @@ import { useAuth } from "@clerk/clerk-react";
 
 function LandingPage() {
   const { userId } = useAuth();
-  const path = userId ? "/snippets" : "/sign-in";
+  const path = userId ? "/notes" : "/sign-in";
   return (
     <div className="w-screen h-screen bg-black text-white flex justify-center items-center">
       <div className="w-full max-w-[500px] mx-auto">

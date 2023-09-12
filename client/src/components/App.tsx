@@ -36,16 +36,20 @@ const router = createBrowserRouter([
   },
   {
     path: "sign-in",
-    element: <SignIn path="sign-in" redirectUrl="/snippets" />,
+    element: (
+      <SignIn path="/sign-in" signUpUrl="/sign-up" redirectUrl="/notes" />
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "sign-up",
-    element: <SignUp path="sign-up" redirectUrl="/snippets" />,
+    element: (
+      <SignUp path="/sign-up" signInUrl="/sign-in" redirectUrl="/notes" />
+    ),
     errorElement: <ErrorPage />,
   },
   {
-    path: "snippets",
+    path: "/notes",
     element: <ProtectedPage />,
     errorElement: <ErrorPage />,
   },
