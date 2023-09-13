@@ -18,6 +18,7 @@ const clerk_sdk_node_1 = require("@clerk/clerk-sdk-node");
 const db_1 = require("./utils/db");
 const app = (0, express_1.default)();
 const port = process.env.PORT;
+app.use(express_1.default.json());
 app.get('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
     const match = yield db_1.prisma.user.findUnique({
@@ -25,7 +26,7 @@ app.get('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __
             clerkId: clerkUser.id,
         },
     });
-    // if use does not exist in DB, create user
+    // if user does not exist in DB, create user
     if (!match) {
         yield db_1.prisma.user.create({
             data: {
@@ -45,10 +46,16 @@ app.get('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __
     });
     res.json(notes);
 }));
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(401).send('Unauthenticated!');
-});
+app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
+    yield db_1.prisma.note.create({
+        data: {
+            userId: clerkUser.id,
+            code: req.body.code,
+        },
+    });
+    res.status(201);
+}));
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

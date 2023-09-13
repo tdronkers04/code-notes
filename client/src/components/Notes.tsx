@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@clerk/clerk-react";
+import Note from "./Note";
+import NewNote from "./NewNote";
 
 function Notes() {
   const { getToken } = useAuth();
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -49,10 +51,20 @@ function Notes() {
   }
 
   return (
-    <div className="text-teal-600 bg-black">
-      <h1>Data from API:</h1>
-      <p>{JSON.stringify(data, null, 2)}</p>
-    </div>
+    <>
+      <div className="text-teal-600 bg-black min-w-[600px] p-[10px]">
+        <h1>Data from API:</h1>
+        <ul>
+          {data.map((item: any) => {
+            // ^ update this any type
+            return <Note key={item.id} code={item.code} />;
+          })}
+        </ul>
+        <div className="py-[10px]">
+          <NewNote />
+        </div>
+      </div>
+    </>
   );
 }
 
