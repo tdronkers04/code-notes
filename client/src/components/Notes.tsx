@@ -61,7 +61,7 @@ function Notes() {
           })}
         </ul>
         <div className="py-[10px]">
-          <NewNote />
+          <NewNote setDataHook={setData} />
         </div>
       </div>
     </>

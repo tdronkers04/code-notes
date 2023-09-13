@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 
-export default function NewNote() {
+export default function NewNote({ setDataHook }) {
   const [value, setValue] = useState("");
   const [error, setError] = useState<Error | null>(null);
   const { getToken } = useAuth();
@@ -26,6 +26,8 @@ export default function NewNote() {
           throw new Error("Something went wrong posting data to the server.");
         }
 
+        const updatedNotes = await response.json();
+        setDataHook(updatedNotes);
         setValue("");
       } catch (err: unknown) {
         if (err instanceof Error) {

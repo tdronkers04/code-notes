@@ -69,7 +69,16 @@ app.post(
       },
     });
 
-    res.status(201);
+    const notes = await prisma.note.findMany({
+      where: {
+        userId: clerkUser.id,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    res.json(notes);
   },
 );
 

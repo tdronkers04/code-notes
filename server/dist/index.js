@@ -54,7 +54,15 @@ app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
             code: req.body.code,
         },
     });
-    res.status(201);
+    const notes = yield db_1.prisma.note.findMany({
+        where: {
+            userId: clerkUser.id,
+        },
+        orderBy: {
+            createdAt: 'desc',
+        },
+    });
+    res.json(notes);
 }));
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
