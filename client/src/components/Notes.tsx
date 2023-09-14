@@ -53,14 +53,14 @@ function Notes() {
   return (
     <>
       <div className="w-screen h-full text-zinc-50 font-mono bg-zinc-950 py-6 flex flex-col justify-start items-center">
-        <h1 className="py-6 text-2xl text-lime-500">Code Notes</h1>
+        <h1 className="py-6 text-3xl text-lime-500">Code Notes</h1>
         <ul>
           {data.map((item: any) => {
             // ^ update this any type
             return <Note key={item.id} code={item.code} />;
           })}
         </ul>
-        <div className="py-[10px]">
+        <div>
           <NewNote setDataHook={setData} />
         </div>
       </div>
