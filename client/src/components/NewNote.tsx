@@ -45,7 +45,7 @@ export default function NewNote({ setDataHook }) {
   }
 
   return (
-    <div className="p-4 m-6 rounded-md min-w-[600px] max-w-[800px] min-h-[200px] max-h-[400px]">
+    <div className="p-4 my-4 rounded-md min-w-[600px] max-w-[800px] min-h-[200px] max-h-[400px]">
       <h2 className="text-lg">Add a New Note:</h2>
       <form className="" onSubmit={handleSubmit}>
         <label>

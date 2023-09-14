@@ -52,7 +52,7 @@ function Notes() {
 
   return (
     <>
-      <div className="w-screen h-full text-zinc-50 font-mono bg-zinc-950 py-6 flex flex-col justify-start items-center">
+      <div className="w-screen h-screen text-zinc-50 font-mono bg-zinc-950 py-6 flex flex-col justify-start items-center">
         <h1 className="py-6 text-3xl text-lime-500">Code Notes</h1>
         <ul>
           {data.map((item: any) => {
