@@ -18,6 +18,8 @@ declare global {
 const app: Application = express();
 const port = process.env.PORT;
 
+app.use(express.json());
+
 app.get(
   '/notes',
   ClerkExpressWithAuth(),
@@ -29,7 +31,7 @@ app.get(
       },
     });
 
-    // if use does not exist in DB, create user
+    // if user does not exist in DB, create user
     if (!match) {
       await prisma.user.create({
         data: {
@@ -54,10 +56,31 @@ app.get(
   },
 );
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(401).send('Unauthenticated!');
-});
+app.post(
+  '/new-note',
+  ClerkExpressWithAuth(),
+  async (req: WithAuthProp<Request>, res: Response) => {
+    const clerkUser = await users.getUser(req.auth.userId || '');
+
+    await prisma.note.create({
+      data: {
+        userId: clerkUser.id,
+        code: req.body.code,
+      },
+    });
+
+    const notes = await prisma.note.findMany({
+      where: {
+        userId: clerkUser.id,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    res.json(notes);
+  },
+);
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
