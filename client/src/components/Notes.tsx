@@ -52,8 +52,8 @@ function Notes() {
 
   return (
     <>
-      <div className="text-teal-600 bg-black min-w-[600px] p-[10px]">
-        <h1>Data from API:</h1>
+      <div className="w-screen h-full text-zinc-50 font-mono bg-zinc-950 py-6 flex flex-col justify-start items-center">
+        <h1 className="py-6 text-2xl text-lime-500">Code Notes</h1>
         <ul>
           {data.map((item: any) => {
             // ^ update this any type
