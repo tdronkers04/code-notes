@@ -45,19 +45,19 @@ export default function NewNote({ setDataHook }) {
   }
 
   return (
-    <div className="p-4 my-4 rounded-md min-w-[600px] max-w-[800px] min-h-[200px] max-h-[400px]">
+    <div className="p-2 my-4 rounded-md min-w-[600px] max-w-[800px] min-h-[200px] max-h-[400px]">
       <h2 className="text-lg">Add a New Note:</h2>
       <form className="" onSubmit={handleSubmit}>
         <label>
           <textarea
             placeholder="type code here..."
-            className="bg-zinc-100 w-full min-h-[100px] text-black p-1"
+            className="bg-zinc-100 w-full min-h-[100px] text-black p-1 rounded-sm"
             value={value}
             onChange={(e) => setValue(e.target.value)}
           ></textarea>
         </label>
         <input
-          className="bg-lime-500 py-1 px-2 my-1 rounded-md"
+          className="bg-purple-500 py-1 px-2 my-1 rounded-md"
           type="submit"
           value="Submit"
         />

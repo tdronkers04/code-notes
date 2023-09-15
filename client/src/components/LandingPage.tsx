@@ -4,12 +4,12 @@ function LandingPage() {
   const { userId } = useAuth();
   const path = userId ? "/notes" : "/sign-in";
   return (
-    <div className="w-screen h-screen bg-black text-white flex justify-center items-center">
+    <div className="w-screen h-screen text-zinc-50 flex justify-center items-center">
       <div className="w-full max-w-[500px] mx-auto">
-        <h1 className="text-5xl mb-3">
+        <h1 className="text-4xl mb-3">
           An AI-Powered Notebook for Code Snippets
         </h1>
-        <p className="text-xl text-white/60 mb-3">
+        <p className="text-xl text-zinc-50/60 mb-3">
           This app will help you keep track of helpful code snippets
         </p>
         <div>
