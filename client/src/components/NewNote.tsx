@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useAuth } from "@clerk/clerk-react";
 
 export default function NewNote({ setDataHook }) {
   const [value, setValue] = useState("");
   const [error, setError] = useState<Error | null>(null);
+  const textAreaRef = useRef(null);
   const { getToken } = useAuth();
+
+  const handleInput = (e) => {
+    setValue(e.target.value);
+    textAreaRef.current.style.height = "inherit";
+    const scrollHeight = textAreaRef.current.scrollHeight;
+    textAreaRef.current.style.height = `${scrollHeight}px`;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    textAreaRef.current.style.height = `56px`; // reset the textarea height
     const createNote = async () => {
       try {
         const token = await getToken();
@@ -51,9 +59,10 @@ export default function NewNote({ setDataHook }) {
         <label>
           <textarea
             placeholder="type code here..."
-            className="bg-zinc-100 w-full min-h-[100px] text-black p-1 rounded-sm"
+            className="bg-zinc-100 w-full text-black p-1 rounded-sm resize-none"
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={handleInput}
+            ref={textAreaRef}
           ></textarea>
         </label>
         <input

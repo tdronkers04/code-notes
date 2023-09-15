@@ -24,14 +24,40 @@ const router = createBrowserRouter([
   {
     path: "/sign-in",
     element: (
-      <SignIn path="/sign-in" signUpUrl="/sign-up" redirectUrl="/notes" />
+      <div className="h-screen w-screen flex justify-center items-center">
+        <SignIn
+          path="/sign-in"
+          signUpUrl="/sign-up"
+          redirectUrl="/notes"
+          appearance={{
+            elements: {
+              formButtonPrimary: "bg-purple-500",
+              footerActionLink: "text-purple-500",
+              "cl-internal-b3fm6y": "bg-purple-500",
+            },
+          }}
+        />
+      </div>
     ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/sign-up",
     element: (
-      <SignUp path="/sign-up" signInUrl="/sign-in" redirectUrl="/notes" />
+      <div className="h-screen w-screen flex justify-center items-center">
+        <SignUp
+          path="/sign-up"
+          signInUrl="/sign-in"
+          redirectUrl="/notes"
+          appearance={{
+            elements: {
+              formButtonPrimary: "bg-purple-500",
+              footerActionLink: "text-purple-500",
+              "cl-internal-b3fm6y": "bg-purple-500",
+            },
+          }}
+        />
+      </div>
     ),
     errorElement: <ErrorPage />,
   },
