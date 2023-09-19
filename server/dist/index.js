@@ -66,6 +66,25 @@ app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
     });
     res.json(notes);
 }));
+app.delete('/note/:id', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
+    const { id } = req.params;
+    yield db_1.prisma.note.delete({
+        where: {
+            id: id,
+            userId: clerkUser.id,
+        },
+    });
+    const notes = yield db_1.prisma.note.findMany({
+        where: {
+            userId: clerkUser.id,
+        },
+        orderBy: {
+            createdAt: 'asc',
+        },
+    });
+    res.json(notes);
+}));
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });

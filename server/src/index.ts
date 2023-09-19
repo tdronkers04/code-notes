@@ -84,6 +84,33 @@ app.post(
   },
 );
 
+app.delete(
+  '/note/:id',
+  ClerkExpressWithAuth(),
+  async (req: WithAuthProp<Request>, res: Response) => {
+    const clerkUser = await users.getUser(req.auth.userId || '');
+    const { id } = req.params;
+
+    await prisma.note.delete({
+      where: {
+        id: id,
+        userId: clerkUser.id,
+      },
+    });
+
+    const notes = await prisma.note.findMany({
+      where: {
+        userId: clerkUser.id,
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
+
+    res.json(notes);
+  },
+);
+
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
