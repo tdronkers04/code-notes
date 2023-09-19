@@ -16,9 +16,11 @@ const express_1 = __importDefault(require("express"));
 require("dotenv/config");
 const clerk_sdk_node_1 = require("@clerk/clerk-sdk-node");
 const db_1 = require("./utils/db");
+const logger_1 = __importDefault(require("./utils/logger"));
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.use(express_1.default.json());
+app.use(logger_1.default);
 app.get('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
     const match = yield db_1.prisma.user.findUnique({

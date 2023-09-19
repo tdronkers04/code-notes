@@ -7,6 +7,7 @@ import {
   users,
 } from '@clerk/clerk-sdk-node';
 import { prisma } from './utils/db';
+import loggerMiddleware from './utils/logger';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -19,6 +20,7 @@ const app: Application = express();
 const port = process.env.PORT;
 
 app.use(express.json());
+app.use(loggerMiddleware);
 
 app.get(
   '/notes',
