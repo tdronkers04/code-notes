@@ -48,7 +48,7 @@ app.get(
         userId: clerkUser.id,
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: 'asc',
       },
     });
 
@@ -74,7 +74,7 @@ app.post(
         userId: clerkUser.id,
       },
       orderBy: {
-        createdAt: 'desc',
+        createdAt: 'asc',
       },
     });
 

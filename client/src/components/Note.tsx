@@ -1,8 +1,21 @@
+import { CopyBlock, atomOneLight } from "react-code-blocks";
+
 export default function Note({ code }: { code: string }) {
+  const copyBlockProps = {
+    text: code,
+    language: "javascript",
+    showLineNumbers: true,
+    theme: atomOneLight,
+  };
+
   return (
-    <div className="bg-black-100 text-red-500 py-[10px] border border-sky-500 max-w-[600px]">
-      <h3>Note:</h3>
-      <code>{code}</code>
+    <div className="p-[10px] my-5 bg-zinc-700 rounded-md min-w-[800px] max-w-[1200px] min-h-[200px] max-h-[400px] grid grid-cols-5">
+      <div className="m-1.5 bg-zinc-50  rounded-md text-black text-sm col-span-3 max-h-[350px] overflow-y-auto overflow-x-auto">
+        <CopyBlock {...copyBlockProps} />
+      </div>
+      <div className="p-[5px] m-1.5 bg-zinc-950 text-lime-500 rounded-md col-span-2 max-h-[350px] overflow-y-auto">
+        Analysis...
+      </div>
     </div>
   );
 }

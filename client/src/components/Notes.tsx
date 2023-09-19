@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "@clerk/clerk-react";
+import { useAuth, UserButton } from "@clerk/clerk-react";
 import Note from "./Note";
 import NewNote from "./NewNote";
 
@@ -51,20 +51,23 @@ function Notes() {
   }
 
   return (
-    <>
-      <div className="text-teal-600 bg-black min-w-[600px] p-[10px]">
-        <h1>Data from API:</h1>
+    <div className="w-screen h-full text-zinc-50">
+      <div className="w-[98%] h-[50px] flex justify-end items-end">
+        <UserButton afterSignOutUrl="/" />
+      </div>
+      <div className="flex flex-col justify-start items-center">
+        <h1 className="py-4 text-3xl text-purple-500">Code Notes</h1>
         <ul>
           {data.map((item: any) => {
             // ^ update this any type
             return <Note key={item.id} code={item.code} />;
           })}
         </ul>
-        <div className="py-[10px]">
+        <div>
           <NewNote setDataHook={setData} />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
