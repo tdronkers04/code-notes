@@ -41,7 +41,7 @@ app.get('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __
             userId: clerkUser.id,
         },
         orderBy: {
-            createdAt: 'desc',
+            createdAt: 'asc',
         },
     });
     res.json(notes);
@@ -59,7 +59,7 @@ app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
             userId: clerkUser.id,
         },
         orderBy: {
-            createdAt: 'desc',
+            createdAt: 'asc',
         },
     });
     res.json(notes);

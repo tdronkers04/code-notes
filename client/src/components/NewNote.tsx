@@ -66,7 +66,7 @@ export default function NewNote({ setDataHook }) {
           ></textarea>
         </label>
         <input
-          className="bg-purple-500 py-1 px-2 my-1 rounded-md"
+          className="bg-purple-500 py-1 px-2 my-1 rounded-md cursor-pointer"
           type="submit"
           value="Submit"
         />
