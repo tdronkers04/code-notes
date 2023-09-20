@@ -17,15 +17,12 @@ function Modal({ children, isOpen, handleClose }) {
     <ReactPortal wrapperId="react-portal-modal-container">
       <CSSTransition
         in={isOpen}
-        timeout={{ entry: 0, exit: 300 }}
+        timeout={{ enter: 0, exit: 300 }}
         unmountOnExit
         classNames="modal"
         nodeRef={nodeRef}
       >
         <div className="modal" ref={nodeRef}>
-          <button onClick={handleClose} className="close-btn">
-            Close
-          </button>
           <div className="modal-content">{children}</div>
         </div>
       </CSSTransition>

@@ -31,6 +31,11 @@ export default function Note({
     setModalType(operation);
   };
 
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+    setModalType("");
+  };
+
   return (
     <>
       <div className="my-5 bg-zinc-700 rounded-md w-[800px] h-[300px]">
@@ -69,8 +74,12 @@ export default function Note({
           </div>
         </div>
       </div>
-      <Modal handleClose={() => setModalIsOpen(false)} isOpen={modalIsOpen}>
-        <ModalContent type={modalType} noteId={noteId} />
+      <Modal isOpen={modalIsOpen} handleClose={handleCloseModal}>
+        <ModalContent
+          type={modalType}
+          noteId={noteId}
+          handleClose={handleCloseModal}
+        />
       </Modal>
     </>
   );
