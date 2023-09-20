@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
-import "./modalStyles.css";
 import ReactPortal from "../ReactPortal";
 
 function Modal({ children, isOpen, handleClose }) {
