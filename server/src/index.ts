@@ -68,6 +68,7 @@ app.post(
       data: {
         userId: clerkUser.id,
         code: req.body.code,
+        title: 'untitled',
       },
     });
 

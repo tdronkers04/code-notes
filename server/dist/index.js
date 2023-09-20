@@ -54,6 +54,7 @@ app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
         data: {
             userId: clerkUser.id,
             code: req.body.code,
+            title: 'untitled',
         },
     });
     const notes = yield db_1.prisma.note.findMany({
