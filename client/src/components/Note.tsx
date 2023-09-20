@@ -39,7 +39,7 @@ export default function Note({ code, title }: { code: string; title: string }) {
           </a>
         </div>
       </div>
-      <div className="h-[260px] p-2 overflow-auto">
+      <div className="h-[260px] p-2 overflow-auto overscroll-none">
         <div className="min-h-full bg-zinc-50 rounded-md text-sm">
           <CopyBlock {...copyBlockProps} />
         </div>
