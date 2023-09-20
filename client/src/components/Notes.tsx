@@ -60,7 +60,7 @@ function Notes() {
         <ul>
           {data.map((item: any) => {
             // ^ update this any type
-            return <Note key={item.id} code={item.code} />;
+            return <Note key={item.id} code={item.code} title={item.title} />;
           })}
         </ul>
         <div>
