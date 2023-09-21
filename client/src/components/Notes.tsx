@@ -52,14 +52,11 @@ function Notes() {
 
   return (
     <div className="w-screen h-full text-zinc-50">
-      <div className="w-[98%] h-[50px] flex justify-end items-end">
+      <div className="w-[96%] h-[70px] -mb-3 flex justify-end items-end">
         <UserButton afterSignOutUrl="/" />
       </div>
       <div className="flex flex-col justify-start items-center">
         <h1 className="py-4 text-3xl text-purple-500">Code Notes</h1>
-        {/* <button onClick={() => setModalIsOpen(true)}>
-            Click to Open Modal
-          </button> */}
         <ul>
           {data.map((item: any) => {
             // ^ update this any type
