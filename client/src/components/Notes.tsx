@@ -5,7 +5,7 @@ import NewNote from "./NewNote";
 
 function Notes() {
   const { getToken } = useAuth();
-  const [data, setData] = useState([]);
+  const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -29,7 +29,7 @@ function Notes() {
         }
 
         const result = await response.json();
-        setData(result);
+        setNotes(result);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err);
@@ -66,7 +66,7 @@ function Notes() {
       <div className="flex flex-col justify-start items-center">
         <h1 className="py-4 text-3xl text-purple-500">Code Notes</h1>
         <ul>
-          {data.map((item: any) => {
+          {notes.map((item: any) => {
             // ^ update this any type
             return (
               <Note
@@ -79,7 +79,7 @@ function Notes() {
           })}
         </ul>
         <div>
-          <NewNote setDataHook={setData} />
+          <NewNote setDataHook={setNotes} />
         </div>
       </div>
     </div>
