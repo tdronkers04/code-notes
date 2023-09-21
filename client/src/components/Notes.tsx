@@ -52,8 +52,16 @@ function Notes() {
 
   return (
     <div className="w-screen h-full text-zinc-50">
-      <div className="w-[96%] h-[70px] -mb-3 flex justify-end items-end">
-        <UserButton afterSignOutUrl="/" />
+      <div className="w-[96%] h-[80px] -mb-4 flex justify-end items-end">
+        <UserButton
+          afterSignOutUrl="/"
+          appearance={{
+            elements: {
+              avatarBox: "w-[45px] h-[45px]",
+              userButtonAvatarBox: "w-[45px] h-[45px]",
+            },
+          }}
+        />
       </div>
       <div className="flex flex-col justify-start items-center">
         <h1 className="py-4 text-3xl text-purple-500">Code Notes</h1>
