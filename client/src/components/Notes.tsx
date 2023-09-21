@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useAuth, UserButton } from "@clerk/clerk-react";
 import Note from "./Note";
 import NewNote from "./NewNote";
+import { NotesContextType, NoteType } from "../@types/notes";
+import { NotesContext } from "../context/notesContext";
 
 function Notes() {
   const { getToken } = useAuth();
-  const [notes, setNotes] = useState([]);
+  const { notes, updateNotes } = useContext(NotesContext) as NotesContextType;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -29,7 +31,7 @@ function Notes() {
         }
 
         const result = await response.json();
-        setNotes(result);
+        updateNotes(result);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err);
@@ -63,11 +65,11 @@ function Notes() {
           }}
         />
       </div>
+
       <div className="flex flex-col justify-start items-center">
         <h1 className="py-4 text-3xl text-purple-500">Code Notes</h1>
         <ul>
-          {notes.map((item: any) => {
-            // ^ update this any type
+          {notes.map((item: NoteType) => {
             return (
               <Note
                 key={item.id}
@@ -79,7 +81,7 @@ function Notes() {
           })}
         </ul>
         <div>
-          <NewNote setDataHook={setNotes} />
+          <NewNote />
         </div>
       </div>
     </div>

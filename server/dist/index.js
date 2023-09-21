@@ -46,27 +46,18 @@ app.get('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __
             createdAt: 'asc',
         },
     });
-    res.json(notes);
+    res.status(200).json(notes);
 }));
 app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
-    yield db_1.prisma.note.create({
+    const newNote = yield db_1.prisma.note.create({
         data: {
             userId: clerkUser.id,
             code: req.body.code,
             title: 'untitled',
         },
     });
-    // this needs to be refactored to only return the newly created note
-    const notes = yield db_1.prisma.note.findMany({
-        where: {
-            userId: clerkUser.id,
-        },
-        orderBy: {
-            createdAt: 'asc',
-        },
-    });
-    res.json(notes);
+    res.status(201).json(newNote);
 }));
 app.delete('/notes/:id', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');

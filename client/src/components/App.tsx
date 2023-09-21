@@ -11,7 +11,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import ErrorPage from "./ErrorPage";
 import Auth from "./Auth";
-import Notes from "./Notes";
+import NotesProviderContainer from "./NotesProviderContainer";
 
 const clerkPubKey = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
 
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
     element: (
       <>
         <SignedIn>
-          <Notes />
+          <NotesProviderContainer />
         </SignedIn>
         <SignedOut>
           <RedirectToSignIn />

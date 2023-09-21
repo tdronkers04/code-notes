@@ -1,11 +1,14 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useContext } from "react";
 import { useAuth } from "@clerk/clerk-react";
+import { NotesContextType, NoteType } from "../@types/notes";
+import { NotesContext } from "../context/notesContext";
 
-export default function NewNote({ setDataHook }) {
+export default function NewNote() {
   const [value, setValue] = useState("");
   const [error, setError] = useState<Error | null>(null);
   const textAreaRef = useRef(null);
   const { getToken } = useAuth();
+  const { addNote } = useContext(NotesContext) as NotesContextType;
 
   const handleInput = (e) => {
     setValue(e.target.value);
@@ -34,8 +37,8 @@ export default function NewNote({ setDataHook }) {
           throw new Error("Something went wrong posting data to the server.");
         }
 
-        const updatedNotes = await response.json();
-        setDataHook(updatedNotes);
+        const newNote: NoteType = await response.json();
+        addNote(newNote);
         setValue("");
       } catch (err: unknown) {
         if (err instanceof Error) {

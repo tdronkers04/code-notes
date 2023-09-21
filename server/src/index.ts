@@ -54,7 +54,7 @@ app.get(
       },
     });
 
-    res.json(notes);
+    res.status(200).json(notes);
   },
 );
 
@@ -64,7 +64,7 @@ app.post(
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
 
-    await prisma.note.create({
+    const newNote = await prisma.note.create({
       data: {
         userId: clerkUser.id,
         code: req.body.code,
@@ -72,17 +72,7 @@ app.post(
       },
     });
 
-    // this needs to be refactored to only return the newly created note
-    const notes = await prisma.note.findMany({
-      where: {
-        userId: clerkUser.id,
-      },
-      orderBy: {
-        createdAt: 'asc',
-      },
-    });
-
-    res.json(notes);
+    res.status(201).json(newNote);
   },
 );
 

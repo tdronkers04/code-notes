@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { RotatingLines } from "react-loader-spinner";
+import { NotesContext } from "../../context/notesContext";
+import { NotesContextType } from "../../@types/notes";
 
-export default function DeleteModal({ noteId, handleClose }) {
+export default function DeleteModal({
+  noteId,
+  handleClose,
+}: {
+  noteId: string;
+  handleClose: () => void;
+}) {
   const { getToken } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
+  const { deleteNote } = useContext(NotesContext) as NotesContextType;
 
   const handleDelete = async () => {
     setLoading(true);
@@ -22,6 +31,7 @@ export default function DeleteModal({ noteId, handleClose }) {
       if (response.status !== 204) {
         throw new Error("Something went wrong deleting this note.");
       }
+      deleteNote(noteId);
       setLoading(false);
       handleClose();
     } catch (err: unknown) {
