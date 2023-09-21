@@ -7,6 +7,7 @@ import {
   users,
 } from '@clerk/clerk-sdk-node';
 import { prisma } from './utils/db';
+import loggerMiddleware from './utils/logger';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -19,6 +20,7 @@ const app: Application = express();
 const port = process.env.PORT;
 
 app.use(express.json());
+app.use(loggerMiddleware);
 
 app.get(
   '/notes',
@@ -52,7 +54,7 @@ app.get(
       },
     });
 
-    res.json(notes);
+    res.status(200).json(notes);
   },
 );
 
@@ -62,23 +64,33 @@ app.post(
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
 
-    await prisma.note.create({
+    const newNote = await prisma.note.create({
       data: {
         userId: clerkUser.id,
         code: req.body.code,
+        title: 'untitled',
       },
     });
 
-    const notes = await prisma.note.findMany({
+    res.status(201).json(newNote);
+  },
+);
+
+app.delete(
+  '/notes/:id',
+  ClerkExpressWithAuth(),
+  async (req: WithAuthProp<Request>, res: Response) => {
+    const clerkUser = await users.getUser(req.auth.userId || '');
+    const { id } = req.params;
+
+    await prisma.note.delete({
       where: {
+        id: id,
         userId: clerkUser.id,
       },
-      orderBy: {
-        createdAt: 'asc',
-      },
     });
 
-    res.json(notes);
+    res.status(204).send();
   },
 );
 

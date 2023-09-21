@@ -26,6 +26,7 @@ model Note {
   updatedAt DateTime  @updatedAt
   userId    String
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String    @db.Text
   code      String    @db.Text
   analysis  Analysis?
 

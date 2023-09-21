@@ -14,7 +14,7 @@ function LandingPage() {
         </p>
         <div>
           <a href={path}>
-            <button className="bg-purple-500 px-4 py-2 rounded-lg text-xl">
+            <button className="bg-purple-500 px-4 py-2 rounded-md text-xl">
               get started
             </button>
           </a>

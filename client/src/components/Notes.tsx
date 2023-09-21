@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useAuth, UserButton } from "@clerk/clerk-react";
 import Note from "./Note";
 import NewNote from "./NewNote";
+import { NotesContextType, NoteType } from "../@types/notes";
+import { NotesContext } from "../context/notesContext";
 
 function Notes() {
   const { getToken } = useAuth();
-  const [data, setData] = useState([]);
+  const { notes, updateNotes } = useContext(NotesContext) as NotesContextType;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -29,7 +31,7 @@ function Notes() {
         }
 
         const result = await response.json();
-        setData(result);
+        updateNotes(result);
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err);
@@ -52,19 +54,34 @@ function Notes() {
 
   return (
     <div className="w-screen h-full text-zinc-50">
-      <div className="w-[98%] h-[50px] flex justify-end items-end">
-        <UserButton afterSignOutUrl="/" />
+      <div className="w-[96%] h-[80px] -mb-4 flex justify-end items-end">
+        <UserButton
+          afterSignOutUrl="/"
+          appearance={{
+            elements: {
+              avatarBox: "w-[45px] h-[45px]",
+              userButtonAvatarBox: "w-[45px] h-[45px]",
+            },
+          }}
+        />
       </div>
+
       <div className="flex flex-col justify-start items-center">
         <h1 className="py-4 text-3xl text-purple-500">Code Notes</h1>
         <ul>
-          {data.map((item: any) => {
-            // ^ update this any type
-            return <Note key={item.id} code={item.code} />;
+          {notes.map((item: NoteType) => {
+            return (
+              <Note
+                key={item.id}
+                noteId={item.id}
+                code={item.code}
+                title={item.title}
+              />
+            );
           })}
         </ul>
         <div>
-          <NewNote setDataHook={setData} />
+          <NewNote />
         </div>
       </div>
     </div>
