@@ -72,6 +72,7 @@ app.post(
       },
     });
 
+    // this needs to be refactored to only return the newly created note
     const notes = await prisma.note.findMany({
       where: {
         userId: clerkUser.id,
@@ -86,7 +87,7 @@ app.post(
 );
 
 app.delete(
-  '/note/:id',
+  '/notes/:id',
   ClerkExpressWithAuth(),
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
@@ -99,16 +100,7 @@ app.delete(
       },
     });
 
-    const notes = await prisma.note.findMany({
-      where: {
-        userId: clerkUser.id,
-      },
-      orderBy: {
-        createdAt: 'asc',
-      },
-    });
-
-    res.json(notes);
+    res.status(204).send();
   },
 );
 

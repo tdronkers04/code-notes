@@ -57,6 +57,7 @@ app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
             title: 'untitled',
         },
     });
+    // this needs to be refactored to only return the newly created note
     const notes = yield db_1.prisma.note.findMany({
         where: {
             userId: clerkUser.id,
@@ -67,7 +68,7 @@ app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
     });
     res.json(notes);
 }));
-app.delete('/note/:id', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.delete('/notes/:id', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
     const { id } = req.params;
     yield db_1.prisma.note.delete({
@@ -76,15 +77,7 @@ app.delete('/note/:id', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res)
             userId: clerkUser.id,
         },
     });
-    const notes = yield db_1.prisma.note.findMany({
-        where: {
-            userId: clerkUser.id,
-        },
-        orderBy: {
-            createdAt: 'asc',
-        },
-    });
-    res.json(notes);
+    res.status(204).send();
 }));
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
