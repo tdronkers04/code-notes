@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { RotatingLines } from "react-loader-spinner";
 
-function DeleteModal({ noteId, handleClose }) {
+export default function DeleteModal({ noteId, handleClose }) {
   const { getToken } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -92,17 +92,4 @@ function DeleteModal({ noteId, handleClose }) {
       </div>
     </div>
   );
-}
-
-export default function ModalContent({ type, noteId, handleClose }) {
-  switch (type) {
-    // case "analysis":
-    //   return <AnalysisModal noteId={noteId} />;
-    // case "expand":
-    //   return <ExpandModal noteId={noteId} />;
-    // case "edit":
-    //   return <EditModal noteId={noteId} />;
-    case "delete":
-      return <DeleteModal noteId={noteId} handleClose={handleClose} />;
-  }
 }

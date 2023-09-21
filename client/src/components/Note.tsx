@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import { CopyBlock, atomOneLight } from "react-code-blocks";
 import { BiTrash, BiPencil, BiExpand, BiBot } from "react-icons/bi";
 import { IconContext } from "react-icons";
-import Modal from "./Modal";
-import ModalContent from "./ModalContent";
+import Modal from "./Modal/Modal";
+import ModalContent from "./Modal/ModalContent";
 
 export default function Note({
   noteId,

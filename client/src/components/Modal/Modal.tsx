@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
-import ReactPortal from "./ReactPortal";
+import ReactPortal from "../ReactPortal";
 
 function Modal({ children, isOpen, handleClose }) {
   const nodeRef = useRef(null);
