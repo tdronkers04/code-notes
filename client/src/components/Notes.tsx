@@ -4,6 +4,7 @@ import Note from "./Note";
 import NewNote from "./NewNote";
 import { NotesContextType, NoteType } from "../@types/notes";
 import { NotesContext } from "../context/notesContext";
+import NotesSkeleton from "./NotesSkeleton";
 
 function Notes() {
   const { getToken } = useAuth();
@@ -42,10 +43,10 @@ function Notes() {
       setLoading(false);
     };
     fetchData();
-  }, [getToken]);
+  }, []);
 
   if (loading) {
-    return <div>"Loading..."</div>;
+    return <NotesSkeleton />;
   }
 
   if (error) {
