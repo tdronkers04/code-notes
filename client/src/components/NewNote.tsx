@@ -2,10 +2,12 @@ import { useState, useRef, useContext } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { NotesContextType, NoteType } from "../@types/notes";
 import { NotesContext } from "../context/notesContext";
+import { RotatingLines } from "react-loader-spinner";
 
 export default function NewNote() {
   const [value, setValue] = useState("");
   const [error, setError] = useState<Error | null>(null);
+  const [loading, setLoading] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement>(
     document.createElement("textarea")
   );
@@ -21,6 +23,7 @@ export default function NewNote() {
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     textAreaRef.current.style.height = `56px`; // reset the textarea height
     const createNote = async () => {
       try {
@@ -49,9 +52,26 @@ export default function NewNote() {
           setError({ message: err } as Error);
         }
       }
+      setLoading(false);
     };
     createNote();
   };
+
+  if (loading) {
+    return (
+      <div className="p-2 my-4 rounded-md min-w-[600px] max-w-[800px] min-h-[200px] max-h-[400px] flex justify-center items-center">
+        <div>
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="70"
+            visible={true}
+          />
+        </div>
+      </div>
+    );
+  }
 
   if (error) {
     return (
