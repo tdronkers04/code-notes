@@ -2,23 +2,28 @@ import { useState, useRef, useContext } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { NotesContextType, NoteType } from "../@types/notes";
 import { NotesContext } from "../context/notesContext";
+import { RotatingLines } from "react-loader-spinner";
 
 export default function NewNote() {
   const [value, setValue] = useState("");
   const [error, setError] = useState<Error | null>(null);
-  const textAreaRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const textAreaRef = useRef<HTMLTextAreaElement>(
+    document.createElement("textarea")
+  );
   const { getToken } = useAuth();
   const { addNote } = useContext(NotesContext) as NotesContextType;
 
-  const handleInput = (e) => {
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
     textAreaRef.current.style.height = "inherit";
     const scrollHeight = textAreaRef.current.scrollHeight;
     textAreaRef.current.style.height = `${scrollHeight}px`;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     textAreaRef.current.style.height = `56px`; // reset the textarea height
     const createNote = async () => {
       try {
@@ -34,7 +39,7 @@ export default function NewNote() {
         });
 
         if (!response.ok) {
-          throw new Error("Something went wrong posting data to the server.");
+          throw new Error("The server was unable to create the new note.");
         }
 
         const newNote: NoteType = await response.json();
@@ -47,12 +52,38 @@ export default function NewNote() {
           setError({ message: err } as Error);
         }
       }
+      setLoading(false);
     };
     createNote();
   };
 
+  if (loading) {
+    return (
+      <div className="p-2 my-4 rounded-md min-w-[600px] max-w-[800px] min-h-[200px] max-h-[400px] flex justify-center items-center">
+        <div>
+          <RotatingLines
+            strokeColor="grey"
+            strokeWidth="5"
+            animationDuration="0.75"
+            width="70"
+            visible={true}
+          />
+        </div>
+      </div>
+    );
+  }
+
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div className="p-2 my-4 rounded-md min-w-[600px] max-w-[800px] min-h-[200px] max-h-[400px] flex flex-col justify-center">
+        <h3 className="flex justify-center text-lg">
+          ⚠️ Error: {error.message}
+        </h3>
+        <p className="flex justify-center">
+          Please refresh the page and try again.
+        </p>
+      </div>
+    );
   }
 
   return (
