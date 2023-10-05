@@ -36,7 +36,7 @@ export default function NewNote() {
         });
 
         if (!response.ok) {
-          throw new Error("Something went wrong posting data to the server.");
+          throw new Error("The server was unable to create the new note.");
         }
 
         const newNote: NoteType = await response.json();
@@ -54,7 +54,16 @@ export default function NewNote() {
   };
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div className="p-2 my-4 rounded-md min-w-[600px] max-w-[800px] min-h-[200px] max-h-[400px] flex flex-col justify-center">
+        <h3 className="flex justify-center text-lg">
+          ⚠️ Error: {error.message}
+        </h3>
+        <p className="flex justify-center">
+          Please refresh the page and try again.
+        </p>
+      </div>
+    );
   }
 
   return (
