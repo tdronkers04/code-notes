@@ -6,18 +6,20 @@ import { NotesContext } from "../context/notesContext";
 export default function NewNote() {
   const [value, setValue] = useState("");
   const [error, setError] = useState<Error | null>(null);
-  const textAreaRef = useRef(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(
+    document.createElement("textarea")
+  );
   const { getToken } = useAuth();
   const { addNote } = useContext(NotesContext) as NotesContextType;
 
-  const handleInput = (e) => {
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
     textAreaRef.current.style.height = "inherit";
     const scrollHeight = textAreaRef.current.scrollHeight;
     textAreaRef.current.style.height = `${scrollHeight}px`;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     textAreaRef.current.style.height = `56px`; // reset the textarea height
     const createNote = async () => {
