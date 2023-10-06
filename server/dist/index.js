@@ -17,6 +17,7 @@ require("dotenv/config");
 const clerk_sdk_node_1 = require("@clerk/clerk-sdk-node");
 const db_1 = require("./utils/db");
 const logger_1 = __importDefault(require("./utils/logger"));
+const ai_1 = __importDefault(require("./utils/ai"));
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.use(express_1.default.json());
@@ -55,6 +56,14 @@ app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
             userId: clerkUser.id,
             code: req.body.code,
             title: 'untitled',
+        },
+    });
+    const analysis = yield (0, ai_1.default)(newNote.code);
+    yield db_1.prisma.analysis.create({
+        data: {
+            snippetId: newNote.id,
+            language: analysis.language,
+            summary: analysis.summary,
         },
     });
     res.status(201).json(newNote);

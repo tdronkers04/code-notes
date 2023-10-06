@@ -8,6 +8,7 @@ import {
 } from '@clerk/clerk-sdk-node';
 import { prisma } from './utils/db';
 import loggerMiddleware from './utils/logger';
+import analyze from './utils/ai';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -44,7 +45,6 @@ app.get(
     }
 
     // query notes associated with user
-
     const notes = await prisma.note.findMany({
       where: {
         userId: clerkUser.id,
@@ -69,6 +69,16 @@ app.post(
         userId: clerkUser.id,
         code: req.body.code,
         title: 'untitled',
+      },
+    });
+
+    const analysis = await analyze(newNote.code);
+
+    await prisma.analysis.create({
+      data: {
+        snippetId: newNote.id,
+        language: analysis.language,
+        summary: analysis.summary,
       },
     });
 
