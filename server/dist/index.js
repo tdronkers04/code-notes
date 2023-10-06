@@ -39,7 +39,7 @@ app.get('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __
         });
     }
     // query notes associated with user
-    const notes = yield db_1.prisma.note.findMany({
+    const notes = yield db_1.prisma.notes.findMany({
         where: {
             userId: clerkUser.id,
         },
@@ -51,7 +51,7 @@ app.get('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __
 }));
 app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
-    const newNote = yield db_1.prisma.note.create({
+    const newNote = yield db_1.prisma.notes.create({
         data: {
             userId: clerkUser.id,
             code: req.body.code,
@@ -61,7 +61,7 @@ app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
     const analysis = yield (0, ai_1.default)(newNote.code);
     yield db_1.prisma.analysis.create({
         data: {
-            snippetId: newNote.id,
+            noteId: newNote.id,
             language: analysis.language,
             summary: analysis.summary,
         },
@@ -71,7 +71,7 @@ app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
 app.delete('/notes/:id', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
     const { id } = req.params;
-    yield db_1.prisma.note.delete({
+    yield db_1.prisma.notes.delete({
         where: {
             id: id,
             userId: clerkUser.id,

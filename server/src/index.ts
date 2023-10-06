@@ -45,7 +45,7 @@ app.get(
     }
 
     // query notes associated with user
-    const notes = await prisma.note.findMany({
+    const notes = await prisma.notes.findMany({
       where: {
         userId: clerkUser.id,
       },
@@ -64,7 +64,7 @@ app.post(
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
 
-    const newNote = await prisma.note.create({
+    const newNote = await prisma.notes.create({
       data: {
         userId: clerkUser.id,
         code: req.body.code,
@@ -76,7 +76,7 @@ app.post(
 
     await prisma.analysis.create({
       data: {
-        snippetId: newNote.id,
+        noteId: newNote.id,
         language: analysis.language,
         summary: analysis.summary,
       },
@@ -93,7 +93,7 @@ app.delete(
     const clerkUser = await users.getUser(req.auth.userId || '');
     const { id } = req.params;
 
-    await prisma.note.delete({
+    await prisma.notes.delete({
       where: {
         id: id,
         userId: clerkUser.id,
