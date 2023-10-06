@@ -78,7 +78,9 @@ app.post(
       data: {
         noteId: newNote.id,
         language: analysis.language,
+        paradigm: analysis.paradigm,
         summary: analysis.summary,
+        recommendation: analysis.recommendation,
       },
     });
 

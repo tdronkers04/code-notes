@@ -63,7 +63,9 @@ app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
         data: {
             noteId: newNote.id,
             language: analysis.language,
+            paradigm: analysis.paradigm,
             summary: analysis.summary,
+            recommendation: analysis.recommendation,
         },
     });
     res.status(201).json(newNote);

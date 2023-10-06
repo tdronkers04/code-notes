@@ -17,7 +17,13 @@ const analysisSchema = zod_1.z.object({
     language: zod_1.z
         .string()
         .describe('the programming languge used to write the code snippet'),
+    paradigm: zod_1.z
+        .string()
+        .describe('the programming paradigm employed by the code snippet'),
     summary: zod_1.z.string().describe('a summary of what the code snippet does'),
+    recommendation: zod_1.z
+        .string()
+        .describe('a recommendation for how to improve the performance or readability of the code'),
 });
 const parser = output_parsers_1.StructuredOutputParser.fromZodSchema(analysisSchema);
 function getPrompt(snippet) {
@@ -39,7 +45,7 @@ function analyze(snippet) {
         const input = yield getPrompt(snippet);
         const model = new openai_1.OpenAI({
             temperature: 0,
-            modelName: 'gpt-3.5-turbo',
+            modelName: 'gpt-4',
         });
         const result = yield model.call(input);
         try {

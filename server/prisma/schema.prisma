@@ -34,13 +34,15 @@ model Notes {
 }
 
 model Analysis {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  noteId    String
-  note      Notes    @relation(fields: [noteId], references: [id], onDelete: Cascade)
-  language  String
-  summary   String   @db.Text
+  id             String   @id @default(uuid())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  noteId         String
+  note           Notes    @relation(fields: [noteId], references: [id], onDelete: Cascade)
+  language       String   @db.Text
+  paradigm       String   @db.Text
+  summary        String   @db.Text
+  recommendation String   @db.Text
 
   @@unique([noteId])
 }

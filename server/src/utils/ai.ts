@@ -7,7 +7,15 @@ const analysisSchema = z.object({
   language: z
     .string()
     .describe('the programming languge used to write the code snippet'),
+  paradigm: z
+    .string()
+    .describe('the programming paradigm employed by the code snippet'),
   summary: z.string().describe('a summary of what the code snippet does'),
+  recommendation: z
+    .string()
+    .describe(
+      'a recommendation for how to improve the performance or readability of the code',
+    ),
 });
 
 type Analysis = z.infer<typeof analysisSchema>;
@@ -35,7 +43,7 @@ export default async function analyze(snippet: string): Promise<Analysis> {
   const input = await getPrompt(snippet);
   const model = new OpenAI({
     temperature: 0,
-    modelName: 'gpt-3.5-turbo',
+    modelName: 'gpt-4',
   });
 
   const result = await model.call(input);
