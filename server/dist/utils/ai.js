@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const logger_1 = require("./logger");
 const openai_1 = require("langchain/llms/openai");
 const output_parsers_1 = require("langchain/output_parsers");
 const prompts_1 = require("langchain/prompts");
@@ -47,7 +48,9 @@ function analyze(snippet) {
             temperature: 0,
             modelName: 'gpt-4',
         });
+        console.log(`⚡️[server]: gpt api call initiated @ ${(0, logger_1.timestamp)()}`);
         const result = yield model.call(input);
+        console.log(`⚡️[server]: gpt api call completed @ ${(0, logger_1.timestamp)()}`);
         try {
             return parser.parse(result);
         }

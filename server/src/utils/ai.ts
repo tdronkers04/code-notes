@@ -1,3 +1,4 @@
+import { timestamp } from './logger';
 import { OpenAI } from 'langchain/llms/openai';
 import { StructuredOutputParser } from 'langchain/output_parsers';
 import { PromptTemplate } from 'langchain/prompts';
@@ -46,7 +47,9 @@ export default async function analyze(snippet: string): Promise<Analysis> {
     modelName: 'gpt-4',
   });
 
+  console.log(`⚡️[server]: gpt api call initiated @ ${timestamp()}`);
   const result = await model.call(input);
+  console.log(`⚡️[server]: gpt api call completed @ ${timestamp()}`);
 
   try {
     return parser.parse(result);
