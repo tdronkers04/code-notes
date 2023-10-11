@@ -42,7 +42,11 @@ export default function Note({
         <div className="h-[40px] flex justify-between items-center text-zinc-50">
           <div className="px-3">{title}</div>
           <div className="px-3 flex justify-around w-[150px]">
-            <button className="" title="note analysis">
+            <button
+              className=""
+              title="note analysis"
+              onClick={() => handleButtonClick("analysis")}
+            >
               <IconContext.Provider value={iconSize}>
                 <BiBot />
               </IconContext.Provider>
