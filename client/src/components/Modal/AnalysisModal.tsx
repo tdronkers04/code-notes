@@ -53,11 +53,14 @@ export default function AnalysisModal({
 
   if (loading) {
     return (
-      <div className="bg-zinc-200 h-[200px] w-[500px] border-1 border-zinc-700 rounded-md grid grid-rows-2">
-        <h1 className="bg-purple-500 p-3 rounded-t-md border-1 border-zinc-700 row-span-1 flex justify-center items-center">
-          Loading...
-        </h1>
-        <div className="row-span-1 p-2 flex justify-center items-center">
+      <div className="bg-zinc-200  w-[1000px] h-[600px] border-1 border-zinc-700 rounded-md grid grid-rows-8">
+        <div className="row-span-1">
+          <h1 className="bg-purple-500 text-xl h-[100px] border-1 border-zinc-700 rounded-t-md p-3 flex justify-center items-center">
+            Analysis
+          </h1>
+        </div>
+
+        <div className="row-span-6 p-3 flex justify-center items-center">
           <RotatingLines
             strokeColor="grey"
             strokeWidth="5"
@@ -65,6 +68,15 @@ export default function AnalysisModal({
             width="70"
             visible={true}
           />
+        </div>
+
+        <div className="row-span-1 p-2 flex justify-center items-center">
+          <button
+            className="rounded-md w-[100px] mx-1 text-purple-500 bg-white  py-2 border-2 border-zinc-700"
+            onClick={handleClose}
+          >
+            Close
+          </button>
         </div>
       </div>
     );
