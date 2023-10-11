@@ -89,27 +89,41 @@ export default function AnalysisModal({
   }
 
   return (
-    <div className="bg-zinc-700 opacity-95 rounded-md w-[1000px] h-[600px] p-3">
-      <div className="flex justify-end">
-        <button onClick={handleClose}>X</button>
+    <div className="bg-zinc-200  w-[1000px] h-[600px] border-1 border-zinc-700 rounded-md grid grid-rows-8">
+      <div className="row-span-1">
+        <h1 className="bg-purple-500 h-[100px] border-1 border-zinc-700 rounded-t-md p-3 flex justify-center items-center">
+          Analysis
+        </h1>
       </div>
-      <div className="grid grid-rows-8 gap-4 text-lime-500">
-        <div className="row-span-1">
-          <span className="text-zinc-50">Language: </span>
-          {analysis?.language}
+
+      <div className="row-span-6 p-3">
+        <div className="grid grid-rows-8 gap-4 text-lime-500">
+          <div className="row-span-1">
+            <span className="text-zinc-700">Language: </span>
+            {analysis?.language}
+          </div>
+          <div className="row-span-1">
+            <span className="text-zinc-700">Paradigm: </span>
+            {analysis?.paradigm}
+          </div>
+          <div className="row-span-3">
+            <span className="text-zinc-700">Summary: </span>
+            {analysis?.summary}
+          </div>
+          <div className="row-span-3">
+            <span className="text-zinc-700">Recommendation: </span>
+            {analysis?.recommendation}
+          </div>
         </div>
-        <div className="row-span-1">
-          <span className="text-zinc-50">Paradigm: </span>
-          {analysis?.paradigm}
-        </div>
-        <div className="row-span-3">
-          <span className="text-zinc-50">Summary: </span>
-          {analysis?.summary}
-        </div>
-        <div className="row-span-3">
-          <span className="text-zinc-50">Recommendation: </span>
-          {analysis?.recommendation}
-        </div>
+      </div>
+
+      <div className="row-span-1 p-2 flex justify-center items-center">
+        <button
+          className="rounded-md w-[100px] mx-1 text-purple-500 bg-white  py-2 border-2 border-zinc-700"
+          onClick={handleClose}
+        >
+          Close
+        </button>
       </div>
     </div>
   );
