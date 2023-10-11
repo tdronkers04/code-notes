@@ -16,3 +16,10 @@ export type NotesContextType = {
   addNote: (note: NoteType) => void;
   deleteNote: (noteId: string) => void;
 };
+
+export type AnalysisType = {
+  language: string;
+  paradigm: string;
+  summary: string;
+  recommendation: string;
+};

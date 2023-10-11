@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { RotatingLines } from "react-loader-spinner";
+import { AnalysisType } from "../../@types/notes";
 
 export default function AnalysisModal({
   noteId,
@@ -12,7 +13,7 @@ export default function AnalysisModal({
   const { getToken } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [analysis, setAnalysis] = useState("");
+  const [analysis, setAnalysis] = useState<AnalysisType | null>(null);
 
   useEffect(() => {
     const fetchAnalysis = async () => {
@@ -88,8 +89,28 @@ export default function AnalysisModal({
   }
 
   return (
-    <div className="bg-zinc-200 h-[200px] w-[500px] border-1 border-zinc-700 rounded-md grid grid-rows-2">
-      ANALYSIS: {analysis}
+    <div className="bg-zinc-700 opacity-95 rounded-md w-[1000px] h-[600px] p-3">
+      <div className="flex justify-end">
+        <button onClick={handleClose}>X</button>
+      </div>
+      <div className="grid grid-rows-8 gap-4 text-lime-500">
+        <div className="row-span-1">
+          <span className="text-zinc-50">Language: </span>
+          {analysis?.language}
+        </div>
+        <div className="row-span-1">
+          <span className="text-zinc-50">Paradigm: </span>
+          {analysis?.paradigm}
+        </div>
+        <div className="row-span-3">
+          <span className="text-zinc-50">Summary: </span>
+          {analysis?.summary}
+        </div>
+        <div className="row-span-3">
+          <span className="text-zinc-50">Recommendation: </span>
+          {analysis?.recommendation}
+        </div>
+      </div>
     </div>
   );
 }
