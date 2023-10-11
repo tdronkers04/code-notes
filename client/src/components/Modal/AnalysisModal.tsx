@@ -91,27 +91,29 @@ export default function AnalysisModal({
   return (
     <div className="bg-zinc-200  w-[1000px] h-[600px] border-1 border-zinc-700 rounded-md grid grid-rows-8">
       <div className="row-span-1">
-        <h1 className="bg-purple-500 h-[100px] border-1 border-zinc-700 rounded-t-md p-3 flex justify-center items-center">
+        <h1 className="bg-purple-500 text-xl h-[100px] border-1 border-zinc-700 rounded-t-md p-3 flex justify-center items-center">
           Analysis
         </h1>
       </div>
 
       <div className="row-span-6 p-3">
-        <div className="grid grid-rows-8 gap-4 text-lime-500">
+        <div className="grid grid-rows-8 gap-5 text-purple-500">
           <div className="row-span-1">
-            <span className="text-zinc-700">Language: </span>
+            <span className="text-zinc-900 font-semibold">Language: </span>
             {analysis?.language}
           </div>
           <div className="row-span-1">
-            <span className="text-zinc-700">Paradigm: </span>
+            <span className="text-zinc-900 font-semibold">Paradigm: </span>
             {analysis?.paradigm}
           </div>
-          <div className="row-span-3">
-            <span className="text-zinc-700">Summary: </span>
+          <div className="row-span-3 max-h-[150px] overflow-y-auto">
+            <span className="text-zinc-900 font-semibold">Summary: </span>
             {analysis?.summary}
           </div>
-          <div className="row-span-3">
-            <span className="text-zinc-700">Recommendation: </span>
+          <div className="row-span-3 max-h-[150px] overflow-y-auto">
+            <span className="text-zinc-900 font-semibold">
+              Recommendation:{" "}
+            </span>
             {analysis?.recommendation}
           </div>
         </div>
