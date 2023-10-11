@@ -58,6 +58,22 @@ app.get(
   },
 );
 
+app.get(
+  '/notes/:id/analysis',
+  ClerkExpressWithAuth(),
+  async (req: WithAuthProp<Request>, res: Response) => {
+    const { id } = req.params;
+
+    const noteAnalysis = await prisma.analysis.findUnique({
+      where: {
+        noteId: id,
+      },
+    });
+
+    res.status(200).json(noteAnalysis);
+  },
+);
+
 app.post(
   '/new-note',
   ClerkExpressWithAuth(),

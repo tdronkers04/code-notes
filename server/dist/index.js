@@ -49,6 +49,15 @@ app.get('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __
     });
     res.status(200).json(notes);
 }));
+app.get('/notes/:id/analysis', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const noteAnalysis = yield db_1.prisma.analysis.findUnique({
+        where: {
+            noteId: id,
+        },
+    });
+    res.status(200).json(noteAnalysis);
+}));
 app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
     const newNote = yield db_1.prisma.notes.create({
