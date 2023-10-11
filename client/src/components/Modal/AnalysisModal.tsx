@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { RotatingLines } from "react-loader-spinner";
 import { AnalysisType } from "../../@types/notes";
+import OpenAiLogo from "../../assets/openai-white-lockup.png";
 
 export default function AnalysisModal({
   noteId,
@@ -54,10 +55,12 @@ export default function AnalysisModal({
   if (loading) {
     return (
       <div className="bg-zinc-200  w-[1000px] h-[600px] border-1 border-zinc-700 rounded-md grid grid-rows-8">
-        <div className="row-span-1">
-          <h1 className="bg-purple-500 text-xl h-[100px] border-1 border-zinc-700 rounded-t-md p-3 flex justify-center items-center">
-            Analysis
-          </h1>
+        <div className="row-span-1 bg-purple-500 h-[100px] border-1 border-zinc-700 rounded-t-md p-3 flex flex-col justify-center items-center">
+          <h1 className="text-xl m-2">Analysis</h1>
+          <div className="flex">
+            <p className="text-sm">powered by</p>
+            <img className="px-2 object-scale-down h-5" src={OpenAiLogo} />
+          </div>
         </div>
 
         <div className="row-span-6 p-3 flex justify-center items-center">
@@ -102,10 +105,12 @@ export default function AnalysisModal({
 
   return (
     <div className="bg-zinc-200  w-[1000px] h-[600px] border-1 border-zinc-700 rounded-md grid grid-rows-8">
-      <div className="row-span-1">
-        <h1 className="bg-purple-500 text-xl h-[100px] border-1 border-zinc-700 rounded-t-md p-3 flex justify-center items-center">
-          Analysis
-        </h1>
+      <div className="row-span-1 bg-purple-500 h-[100px] border-1 border-zinc-700 rounded-t-md p-3 flex flex-col justify-center items-center">
+        <h1 className="text-xl m-2">Analysis</h1>
+        <div className="flex">
+          <p className="text-sm">powered by</p>
+          <img className="px-2 object-scale-down h-5" src={OpenAiLogo} />
+        </div>
       </div>
 
       <div className="row-span-6 p-3">
