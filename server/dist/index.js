@@ -37,17 +37,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const path = __importStar(require("path"));
+const cors_1 = __importDefault(require("cors"));
 require("dotenv/config");
 const clerk_sdk_node_1 = require("@clerk/clerk-sdk-node");
 const db_1 = require("./utils/db");
 const logger_1 = __importDefault(require("./utils/logger"));
 const ai_1 = __importDefault(require("./utils/ai"));
 const app = (0, express_1.default)();
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
+app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(logger_1.default);
 app.use(express_1.default.static(path.join(__dirname, '../../client/dist')));
-app.get('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
     const match = yield db_1.prisma.user.findUnique({
         where: {
@@ -74,7 +76,7 @@ app.get('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __
     });
     res.status(200).json(notes);
 }));
-app.get('/notes/:id/analysis', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get('/api/notes/:id/analysis', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const noteAnalysis = yield db_1.prisma.analysis.findUnique({
         where: {
@@ -83,7 +85,7 @@ app.get('/notes/:id/analysis', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (re
     });
     res.status(200).json(noteAnalysis);
 }));
-app.post('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post('/api/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
     const newNote = yield db_1.prisma.notes.create({
         data: {
@@ -104,7 +106,7 @@ app.post('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => _
     });
     res.status(201).json(newNote);
 }));
-app.delete('/notes/:id', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.delete('/api/notes/:id', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
     const { id } = req.params;
     yield db_1.prisma.notes.delete({

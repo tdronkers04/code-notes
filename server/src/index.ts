@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 import * as path from 'path';
+import cors from 'cors';
 import 'dotenv/config';
 import {
   ClerkExpressWithAuth,
@@ -19,14 +20,15 @@ declare global {
 }
 
 const app: Application = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
 
+app.use(cors());
 app.use(express.json());
 app.use(loggerMiddleware);
 app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 app.get(
-  '/notes',
+  '/api/notes',
   ClerkExpressWithAuth(),
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
@@ -61,7 +63,7 @@ app.get(
 );
 
 app.get(
-  '/notes/:id/analysis',
+  '/api/notes/:id/analysis',
   ClerkExpressWithAuth(),
   async (req: WithAuthProp<Request>, res: Response) => {
     const { id } = req.params;
@@ -77,7 +79,7 @@ app.get(
 );
 
 app.post(
-  '/notes',
+  '/api/notes',
   ClerkExpressWithAuth(),
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
@@ -107,7 +109,7 @@ app.post(
 );
 
 app.delete(
-  '/notes/:id',
+  '/api/notes/:id',
   ClerkExpressWithAuth(),
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
