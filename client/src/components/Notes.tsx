@@ -68,7 +68,7 @@ function Notes() {
       </div>
 
       <div className="flex flex-col justify-start items-center">
-        <h1 className="py-4 text-3xl text-purple-500">Code Notes</h1>
+        <h1 className="py-4 text-3xl text-purple-500 underline">Code Notes</h1>
         <ul>
           {notes.map((item: NoteType) => {
             return (
