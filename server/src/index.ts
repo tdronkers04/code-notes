@@ -8,6 +8,7 @@ import {
 } from '@clerk/clerk-sdk-node';
 import { prisma } from './utils/db';
 import loggerMiddleware from './utils/logger';
+import analyze from './utils/ai';
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -44,8 +45,7 @@ app.get(
     }
 
     // query notes associated with user
-
-    const notes = await prisma.note.findMany({
+    const notes = await prisma.notes.findMany({
       where: {
         userId: clerkUser.id,
       },
@@ -58,17 +58,45 @@ app.get(
   },
 );
 
+app.get(
+  '/notes/:id/analysis',
+  ClerkExpressWithAuth(),
+  async (req: WithAuthProp<Request>, res: Response) => {
+    const { id } = req.params;
+
+    const noteAnalysis = await prisma.analysis.findUnique({
+      where: {
+        noteId: id,
+      },
+    });
+
+    res.status(200).json(noteAnalysis);
+  },
+);
+
 app.post(
   '/new-note',
   ClerkExpressWithAuth(),
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
 
-    const newNote = await prisma.note.create({
+    const newNote = await prisma.notes.create({
       data: {
         userId: clerkUser.id,
         code: req.body.code,
         title: 'untitled',
+      },
+    });
+
+    const analysis = await analyze(newNote.code);
+
+    await prisma.analysis.create({
+      data: {
+        noteId: newNote.id,
+        language: analysis.language,
+        paradigm: analysis.paradigm,
+        summary: analysis.summary,
+        recommendation: analysis.recommendation,
       },
     });
 
@@ -83,7 +111,7 @@ app.delete(
     const clerkUser = await users.getUser(req.auth.userId || '');
     const { id } = req.params;
 
-    await prisma.note.delete({
+    await prisma.notes.delete({
       where: {
         id: id,
         userId: clerkUser.id,

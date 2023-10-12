@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.timestamp = void 0;
 const winston_1 = __importDefault(require("winston"));
 const morgan_1 = __importDefault(require("morgan"));
 const levels = {
@@ -47,4 +48,16 @@ const skip = () => {
     return env !== 'development';
 };
 const loggerMiddleware = (0, morgan_1.default)(':method :url :status :res[content-length] - :response-time ms', { stream, skip });
+const timestamp = () => {
+    const date = new Date(Date.now());
+    const month = date.getMonth().toString().padStart(2, '0');
+    const day = date.getDay().toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    const milliseconds = date.getMilliseconds().toString().padStart(3, '0');
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}:${milliseconds}`;
+};
+exports.timestamp = timestamp;
 exports.default = loggerMiddleware;
