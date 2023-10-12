@@ -83,7 +83,7 @@ app.get('/notes/:id/analysis', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (re
     });
     res.status(200).json(noteAnalysis);
 }));
-app.post('/new-note', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.post('/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
     const newNote = yield db_1.prisma.notes.create({
         data: {

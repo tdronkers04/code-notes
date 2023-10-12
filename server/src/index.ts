@@ -77,7 +77,7 @@ app.get(
 );
 
 app.post(
-  '/new-note',
+  '/notes',
   ClerkExpressWithAuth(),
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
