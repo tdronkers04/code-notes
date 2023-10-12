@@ -20,6 +20,7 @@ declare global {
 }
 
 const app: Application = express();
+const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 8000;
 
 app.use(cors());
@@ -131,5 +132,5 @@ app.get('*', (_, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+  console.log(`⚡️[server]: Server is listening on port ${port} of ${host}`);
 });

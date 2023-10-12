@@ -44,6 +44,7 @@ const db_1 = require("./utils/db");
 const logger_1 = __importDefault(require("./utils/logger"));
 const ai_1 = __importDefault(require("./utils/ai"));
 const app = (0, express_1.default)();
+const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 8000;
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
@@ -121,5 +122,5 @@ app.get('*', (_, res) => {
     res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
 });
 app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+    console.log(`⚡️[server]: Server is listening on port ${port} of ${host}`);
 });
