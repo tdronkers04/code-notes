@@ -1,12 +1,21 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import ReactPortal from "../ReactPortal";
 
-function Modal({ children, isOpen, handleClose }) {
+function Modal({
+  children,
+  isOpen,
+  handleClose,
+}: {
+  children: React.ReactNode;
+  isOpen: boolean;
+  handleClose: () => void;
+}) {
   const nodeRef = useRef(null);
 
   useEffect(() => {
-    const closeOnEscapeKey = (e) => (e.key === "Escape" ? handleClose() : null);
+    const closeOnEscapeKey = (e: KeyboardEvent) =>
+      e.key === "Escape" ? handleClose() : null;
     document.body.addEventListener("keydown", closeOnEscapeKey);
     return () => {
       document.body.removeEventListener("keydown", closeOnEscapeKey);

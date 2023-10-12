@@ -28,7 +28,7 @@ export default function NewNote() {
     const createNote = async () => {
       try {
         const token = await getToken();
-        const response = await fetch("http://localhost:8000/new-note", {
+        const response = await fetch("http://localhost:8000/notes", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

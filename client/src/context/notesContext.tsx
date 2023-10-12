@@ -3,7 +3,7 @@ import { NoteType, NotesContextType } from "../@types/notes";
 
 export const NotesContext = createContext<NotesContextType | null>(null);
 
-export const NotesProvider = ({ children }) => {
+export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
   const [notes, setNotes] = React.useState<NoteType[]>([]);
 
   const updateNotes = (notes: NoteType[]) => {
@@ -15,7 +15,7 @@ export const NotesProvider = ({ children }) => {
   };
 
   const deleteNote = (noteId: string) => {
-    setNotes([...notes.filter((note) => note.id !== noteId)]);
+    setNotes([...notes.filter((note: NoteType) => note.id !== noteId)]);
   };
 
   return (
