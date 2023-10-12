@@ -1,4 +1,5 @@
 import express, { Application, Request, Response } from 'express';
+import * as path from 'path';
 import 'dotenv/config';
 import {
   ClerkExpressWithAuth,
@@ -22,6 +23,7 @@ const port = process.env.PORT;
 
 app.use(express.json());
 app.use(loggerMiddleware);
+app.use(express.static(path.join(__dirname, '../../client/dist')));
 
 app.get(
   '/notes',
@@ -121,6 +123,10 @@ app.delete(
     res.status(204).send();
   },
 );
+
+app.get('*', (_, res) => {
+  res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
+});
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
