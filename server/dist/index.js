@@ -40,6 +40,7 @@ const path = __importStar(require("path"));
 const cors_1 = __importDefault(require("cors"));
 require("dotenv/config");
 const clerk_sdk_node_1 = require("@clerk/clerk-sdk-node");
+const helmet_1 = __importDefault(require("helmet"));
 const db_1 = require("./utils/db");
 const logger_1 = __importDefault(require("./utils/logger"));
 const ai_1 = __importDefault(require("./utils/ai"));
@@ -50,6 +51,19 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(logger_1.default);
 app.use(express_1.default.static(path.join(__dirname, '../../client/dist')));
+app.use(helmet_1.default.contentSecurityPolicy({
+    directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            'blob:',
+            'loyal-wolf-53.clerk.accounts.dev',
+        ],
+        connectSrc: ["'self'", 'loyal-wolf-53.clerk.accounts.dev'],
+        imgSrc: ["'self'", 'https://img.clerk.com'],
+    },
+}));
 app.get('/api/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const clerkUser = yield clerk_sdk_node_1.users.getUser(req.auth.userId || '');
     const match = yield db_1.prisma.user.findUnique({

@@ -8,6 +8,7 @@ import {
   WithAuthProp,
   users,
 } from '@clerk/clerk-sdk-node';
+import helmet from 'helmet';
 import { prisma } from './utils/db';
 import loggerMiddleware from './utils/logger';
 import analyze from './utils/ai';
@@ -27,6 +28,21 @@ app.use(cors());
 app.use(express.json());
 app.use(loggerMiddleware);
 app.use(express.static(path.join(__dirname, '../../client/dist')));
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        'blob:',
+        'loyal-wolf-53.clerk.accounts.dev',
+      ],
+      connectSrc: ["'self'", 'loyal-wolf-53.clerk.accounts.dev'],
+      imgSrc: ["'self'", 'https://img.clerk.com'],
+    },
+  }),
+);
 
 app.get(
   '/api/notes',
