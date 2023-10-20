@@ -41,12 +41,18 @@ const cors_1 = __importDefault(require("cors"));
 require("dotenv/config");
 const clerk_sdk_node_1 = require("@clerk/clerk-sdk-node");
 const helmet_1 = __importDefault(require("helmet"));
+const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
 const db_1 = require("./utils/db");
 const logger_1 = __importDefault(require("./utils/logger"));
 const ai_1 = __importDefault(require("./utils/ai"));
 const app = (0, express_1.default)();
 const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 8000;
+const limiter = (0, express_rate_limit_1.default)({
+    windowMs: 1 * 60 * 1000,
+    max: 50,
+});
+app.use(limiter);
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(logger_1.default);
@@ -71,7 +77,6 @@ app.get('/api/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
             clerkId: clerkUser.id,
         },
     });
-    // if user does not exist in DB, create user
     if (!match) {
         yield db_1.prisma.user.create({
             data: {
@@ -80,7 +85,6 @@ app.get('/api/notes', (0, clerk_sdk_node_1.ClerkExpressWithAuth)(), (req, res) =
             },
         });
     }
-    // query notes associated with user
     const notes = yield db_1.prisma.notes.findMany({
         where: {
             userId: clerkUser.id,
