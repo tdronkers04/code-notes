@@ -4,6 +4,8 @@ import { NotesContextType, NoteType } from "../@types/notes";
 import { NotesContext } from "../context/notesContext";
 import { RotatingLines } from "react-loader-spinner";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function NewNote() {
   const [value, setValue] = useState("");
   const [error, setError] = useState<Error | null>(null);
@@ -28,7 +30,7 @@ export default function NewNote() {
     const createNote = async () => {
       try {
         const token = await getToken();
-        const response = await fetch("http://localhost:8000/notes", {
+        const response = await fetch(`${API_URL}/api/notes`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -6,6 +6,8 @@ import { NotesContextType, NoteType } from "../@types/notes";
 import { NotesContext } from "../context/notesContext";
 import NotesSkeleton from "./NotesSkeleton";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 function Notes() {
   const { getToken } = useAuth();
   const { notes, updateNotes } = useContext(NotesContext) as NotesContextType;
@@ -16,7 +18,7 @@ function Notes() {
     const fetchData = async () => {
       try {
         const token = await getToken();
-        const response = await fetch("http://localhost:8000/notes", {
+        const response = await fetch(`${API_URL}/api/notes`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

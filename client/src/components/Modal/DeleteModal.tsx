@@ -4,6 +4,8 @@ import { RotatingLines } from "react-loader-spinner";
 import { NotesContext } from "../../context/notesContext";
 import { NotesContextType } from "../../@types/notes";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function DeleteModal({
   noteId,
   handleClose,
@@ -20,7 +22,7 @@ export default function DeleteModal({
     setLoading(true);
     try {
       const token = await getToken();
-      const response = await fetch(`http://localhost:8000/notes/${noteId}`, {
+      const response = await fetch(`${API_URL}/api/notes/${noteId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

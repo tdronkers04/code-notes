@@ -4,6 +4,8 @@ import { RotatingLines } from "react-loader-spinner";
 import { AnalysisType } from "../../@types/notes";
 import OpenAiLogo from "../../assets/openai-white-lockup.png";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function AnalysisModal({
   noteId,
   handleClose,
@@ -22,7 +24,7 @@ export default function AnalysisModal({
       try {
         const token = await getToken();
         const response = await fetch(
-          `http://localhost:8000/notes/${noteId}/analysis`,
+          `${API_URL}/api/notes/${noteId}/analysis`,
           {
             method: "GET",
             headers: {

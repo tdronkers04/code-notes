@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from 'express';
 import * as path from 'path';
+import cors from 'cors';
 import 'dotenv/config';
 import {
   ClerkExpressWithAuth,
@@ -7,6 +8,8 @@ import {
   WithAuthProp,
   users,
 } from '@clerk/clerk-sdk-node';
+import helmet from 'helmet';
+import RateLimit from 'express-rate-limit';
 import { prisma } from './utils/db';
 import loggerMiddleware from './utils/logger';
 import analyze from './utils/ai';
@@ -19,14 +22,36 @@ declare global {
 }
 
 const app: Application = express();
-const port = process.env.PORT;
+const host = process.env.HOST || 'localhost';
+const port = process.env.PORT || 8000;
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 50,
+});
 
+app.use(limiter);
+app.use(cors());
 app.use(express.json());
 app.use(loggerMiddleware);
 app.use(express.static(path.join(__dirname, '../../client/dist')));
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        'blob:',
+        'loyal-wolf-53.clerk.accounts.dev',
+      ],
+      connectSrc: ["'self'", 'loyal-wolf-53.clerk.accounts.dev'],
+      imgSrc: ["'self'", 'https://img.clerk.com'],
+    },
+  }),
+);
 
 app.get(
-  '/notes',
+  '/api/notes',
   ClerkExpressWithAuth(),
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
@@ -36,7 +61,6 @@ app.get(
       },
     });
 
-    // if user does not exist in DB, create user
     if (!match) {
       await prisma.user.create({
         data: {
@@ -46,7 +70,6 @@ app.get(
       });
     }
 
-    // query notes associated with user
     const notes = await prisma.notes.findMany({
       where: {
         userId: clerkUser.id,
@@ -61,7 +84,7 @@ app.get(
 );
 
 app.get(
-  '/notes/:id/analysis',
+  '/api/notes/:id/analysis',
   ClerkExpressWithAuth(),
   async (req: WithAuthProp<Request>, res: Response) => {
     const { id } = req.params;
@@ -77,7 +100,7 @@ app.get(
 );
 
 app.post(
-  '/notes',
+  '/api/notes',
   ClerkExpressWithAuth(),
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
@@ -107,7 +130,7 @@ app.post(
 );
 
 app.delete(
-  '/notes/:id',
+  '/api/notes/:id',
   ClerkExpressWithAuth(),
   async (req: WithAuthProp<Request>, res: Response) => {
     const clerkUser = await users.getUser(req.auth.userId || '');
@@ -129,5 +152,5 @@ app.get('*', (_, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+  console.log(`⚡️[server]: Server is listening on port ${port} of ${host}`);
 });
