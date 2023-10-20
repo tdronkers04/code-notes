@@ -1,4 +1,4 @@
-# code-snips
+# code-notes
 
 ### connect to the db
 
