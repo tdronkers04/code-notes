@@ -7,7 +7,6 @@ import {
   WithAuthProp,
   users,
 } from '@clerk/clerk-sdk-node';
-import RateLimit from 'express-rate-limit';
 import { prisma } from './utils/db';
 import loggerMiddleware from './utils/logger';
 import analyze from './utils/ai';
@@ -22,16 +21,10 @@ declare global {
 const app: Application = express();
 const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 8000;
-const limiter = RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 50,
-});
 
-app.use(limiter);
 app.use(cors());
 app.use(express.json());
 app.use(loggerMiddleware);
-
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header(
