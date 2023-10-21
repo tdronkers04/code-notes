@@ -1,5 +1,4 @@
 import express, { Application, Request, Response } from 'express';
-import * as path from 'path';
 import cors from 'cors';
 import 'dotenv/config';
 import {
@@ -8,7 +7,6 @@ import {
   WithAuthProp,
   users,
 } from '@clerk/clerk-sdk-node';
-import helmet from 'helmet';
 import RateLimit from 'express-rate-limit';
 import { prisma } from './utils/db';
 import loggerMiddleware from './utils/logger';
@@ -33,22 +31,6 @@ app.use(limiter);
 app.use(cors());
 app.use(express.json());
 app.use(loggerMiddleware);
-app.use(express.static(path.join(__dirname, '../../client/dist')));
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "'unsafe-inline'",
-        'blob:',
-        'loyal-wolf-53.clerk.accounts.dev',
-      ],
-      connectSrc: ["'self'", 'loyal-wolf-53.clerk.accounts.dev'],
-      imgSrc: ["'self'", 'https://img.clerk.com'],
-    },
-  }),
-);
 
 app.get(
   '/api/notes',
@@ -146,10 +128,6 @@ app.delete(
     res.status(204).send();
   },
 );
-
-app.get('*', (_, res) => {
-  res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
-});
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is listening on port ${port} of ${host}`);
