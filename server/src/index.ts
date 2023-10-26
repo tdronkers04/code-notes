@@ -1,5 +1,4 @@
 import express, { Application, Request, Response } from 'express';
-import * as path from 'path';
 import cors from 'cors';
 import 'dotenv/config';
 import {
@@ -8,8 +7,6 @@ import {
   WithAuthProp,
   users,
 } from '@clerk/clerk-sdk-node';
-import helmet from 'helmet';
-import RateLimit from 'express-rate-limit';
 import { prisma } from './utils/db';
 import loggerMiddleware from './utils/logger';
 import analyze from './utils/ai';
@@ -24,31 +21,18 @@ declare global {
 const app: Application = express();
 const host = process.env.HOST || 'localhost';
 const port = process.env.PORT || 8000;
-const limiter = RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 50,
-});
 
-app.use(limiter);
 app.use(cors());
 app.use(express.json());
 app.use(loggerMiddleware);
-app.use(express.static(path.join(__dirname, '../../client/dist')));
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "'unsafe-inline'",
-        'blob:',
-        'loyal-wolf-53.clerk.accounts.dev',
-      ],
-      connectSrc: ["'self'", 'loyal-wolf-53.clerk.accounts.dev'],
-      imgSrc: ["'self'", 'https://img.clerk.com'],
-    },
-  }),
-);
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept',
+  );
+  next();
+});
 
 app.get(
   '/api/notes',
@@ -146,10 +130,6 @@ app.delete(
     res.status(204).send();
   },
 );
-
-app.get('*', (_, res) => {
-  res.sendFile(path.join(__dirname, '../../client/dist', 'index.html'));
-});
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is listening on port ${port} of ${host}`);
