@@ -1,5 +1,5 @@
-import DeleteModal from "./DeleteModal";
-import AnalysisModal from "./AnalysisModal";
+import DeleteModal from './DeleteModal';
+import AnalysisModal from './AnalysisModal';
 
 export default function ModalContent({
   type,
@@ -11,13 +11,13 @@ export default function ModalContent({
   handleClose: () => void;
 }) {
   switch (type) {
-    case "analysis":
+    case 'analysis':
       return <AnalysisModal noteId={noteId} handleClose={handleClose} />;
     // case "expand":
     //   return <ExpandModal noteId={noteId} />;
     // case "edit":
     //   return <EditModal noteId={noteId} />;
-    case "delete":
+    case 'delete':
       return <DeleteModal noteId={noteId} handleClose={handleClose} />;
   }
 }

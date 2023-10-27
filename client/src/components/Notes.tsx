@@ -1,10 +1,10 @@
-import { useState, useEffect, useContext } from "react";
-import { useAuth, UserButton } from "@clerk/clerk-react";
-import Note from "./Note";
-import NewNote from "./NewNote";
-import { NotesContextType, NoteType } from "../@types/notes";
-import { NotesContext } from "../context/notesContext";
-import NotesSkeleton from "./NotesSkeleton";
+import { useState, useEffect, useContext } from 'react';
+import { useAuth, UserButton } from '@clerk/clerk-react';
+import Note from './Note';
+import NewNote from './NewNote';
+import { NotesContextType, NoteType } from '../@types/notes';
+import { NotesContext } from '../context/notesContext';
+import NotesSkeleton from './NotesSkeleton';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -19,17 +19,17 @@ function Notes() {
       try {
         const token = await getToken();
         const response = await fetch(`${API_URL}/api/notes`, {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
-            mode: "cors",
+            mode: 'cors',
           },
         });
 
         if (!response.ok) {
           throw new Error(
-            "Something went wrong fetching data from the server."
+            'Something went wrong fetching data from the server.',
           );
         }
 
@@ -38,7 +38,7 @@ function Notes() {
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err);
-        } else if (typeof err === "string") {
+        } else if (typeof err === 'string') {
           setError({ message: err } as Error);
         }
       }
@@ -62,8 +62,8 @@ function Notes() {
           afterSignOutUrl="/"
           appearance={{
             elements: {
-              avatarBox: "w-[45px] h-[45px]",
-              userButtonAvatarBox: "w-[45px] h-[45px]",
+              avatarBox: 'w-[45px] h-[45px]',
+              userButtonAvatarBox: 'w-[45px] h-[45px]',
             },
           }}
         />

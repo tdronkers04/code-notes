@@ -1,8 +1,8 @@
-import { useState, useContext } from "react";
-import { useAuth } from "@clerk/clerk-react";
-import { RotatingLines } from "react-loader-spinner";
-import { NotesContext } from "../../context/notesContext";
-import { NotesContextType } from "../../@types/notes";
+import { useState, useContext } from 'react';
+import { useAuth } from '@clerk/clerk-react';
+import { RotatingLines } from 'react-loader-spinner';
+import { NotesContext } from '../../context/notesContext';
+import { NotesContextType } from '../../@types/notes';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -23,15 +23,15 @@ export default function DeleteModal({
     try {
       const token = await getToken();
       const response = await fetch(`${API_URL}/api/notes/${noteId}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
-          mode: "cors",
+          mode: 'cors',
         },
       });
 
       if (response.status !== 204) {
-        throw new Error("Something went wrong deleting this note.");
+        throw new Error('Something went wrong deleting this note.');
       }
       deleteNote(noteId);
       setLoading(false);
@@ -39,7 +39,7 @@ export default function DeleteModal({
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err);
-      } else if (typeof err === "string") {
+      } else if (typeof err === 'string') {
         setError({ message: err } as Error);
       }
       setLoading(false);

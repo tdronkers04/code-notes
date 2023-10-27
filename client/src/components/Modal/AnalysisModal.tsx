@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "@clerk/clerk-react";
-import { RotatingLines } from "react-loader-spinner";
-import { AnalysisType } from "../../@types/notes";
-import OpenAiLogo from "../../assets/openai-white-lockup.png";
+import { useState, useEffect } from 'react';
+import { useAuth } from '@clerk/clerk-react';
+import { RotatingLines } from 'react-loader-spinner';
+import { AnalysisType } from '../../@types/notes';
+import OpenAiLogo from '../../assets/openai-white-lockup.png';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -26,17 +26,17 @@ export default function AnalysisModal({
         const response = await fetch(
           `${API_URL}/api/notes/${noteId}/analysis`,
           {
-            method: "GET",
+            method: 'GET',
             headers: {
               Authorization: `Bearer ${token}`,
-              mode: "cors",
+              mode: 'cors',
             },
-          }
+          },
         );
 
         if (response.status !== 200) {
           throw new Error(
-            `Something went wrong fetching the analysis for note ${noteId}`
+            `Something went wrong fetching the analysis for note ${noteId}`,
           );
         }
 
@@ -45,7 +45,7 @@ export default function AnalysisModal({
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err);
-        } else if (typeof err === "string") {
+        } else if (typeof err === 'string') {
           setError({ message: err } as Error);
         }
       }
@@ -131,7 +131,7 @@ export default function AnalysisModal({
           </div>
           <div className="row-span-3 max-h-[150px] overflow-y-auto">
             <span className="text-zinc-900 font-semibold">
-              Recommendation:{" "}
+              Recommendation:{' '}
             </span>
             {analysis?.recommendation}
           </div>

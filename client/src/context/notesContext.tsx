@@ -1,5 +1,5 @@
-import React, { createContext } from "react";
-import { NoteType, NotesContextType } from "../@types/notes";
+import React, { createContext } from 'react';
+import { NoteType, NotesContextType } from '../@types/notes';
 
 export const NotesContext = createContext<NotesContextType | null>(null);
 

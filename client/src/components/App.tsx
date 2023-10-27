@@ -5,23 +5,23 @@ import {
   RedirectToSignIn,
   SignIn,
   SignUp,
-} from "@clerk/clerk-react";
+} from '@clerk/clerk-react';
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LandingPage from "./LandingPage";
-import ErrorPage from "./ErrorPage";
-import NotesProviderContainer from "./NotesProviderContainer";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import LandingPage from './LandingPage';
+import ErrorPage from './ErrorPage';
+import NotesProviderContainer from './NotesProviderContainer';
 
 const clerkPubKey = import.meta.env.VITE_REACT_APP_CLERK_PUBLISHABLE_KEY;
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <LandingPage />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/sign-in",
+    path: '/sign-in',
     element: (
       <div className="h-screen w-screen flex justify-center items-center">
         <SignIn
@@ -30,9 +30,9 @@ const router = createBrowserRouter([
           redirectUrl="/notes"
           appearance={{
             elements: {
-              formButtonPrimary: "bg-purple-500",
-              footerActionLink: "text-purple-500",
-              "cl-internal-b3fm6y": "bg-purple-500",
+              formButtonPrimary: 'bg-purple-500',
+              footerActionLink: 'text-purple-500',
+              'cl-internal-b3fm6y': 'bg-purple-500',
             },
           }}
         />
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/sign-up",
+    path: '/sign-up',
     element: (
       <div className="h-screen w-screen flex justify-center items-center">
         <SignUp
@@ -50,9 +50,9 @@ const router = createBrowserRouter([
           redirectUrl="/notes"
           appearance={{
             elements: {
-              formButtonPrimary: "bg-purple-500",
-              footerActionLink: "text-purple-500",
-              "cl-internal-b3fm6y": "bg-purple-500",
+              formButtonPrimary: 'bg-purple-500',
+              footerActionLink: 'text-purple-500',
+              'cl-internal-b3fm6y': 'bg-purple-500',
             },
           }}
         />
@@ -61,7 +61,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/notes",
+    path: '/notes',
     element: (
       <>
         <SignedIn>

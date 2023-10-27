@@ -1,9 +1,9 @@
-import { useAuth } from "@clerk/clerk-react";
-import OpenAiLogo from "../assets/openai-white-lockup.png";
+import { useAuth } from '@clerk/clerk-react';
+import OpenAiLogo from '../assets/openai-white-lockup.png';
 
 function LandingPage() {
   const { userId } = useAuth();
-  const path = userId ? "/notes" : "/sign-in";
+  const path = userId ? '/notes' : '/sign-in';
   return (
     <div className="w-screen h-screen text-zinc-50 flex justify-center items-center">
       <div className="w-full max-w-[500px] mx-auto">

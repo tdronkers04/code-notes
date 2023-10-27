@@ -1,9 +1,9 @@
-import { useMemo, useState } from "react";
-import { CopyBlock, atomOneLight } from "react-code-blocks";
-import { BiTrash, BiPencil, BiExpand, BiBot } from "react-icons/bi";
-import { IconContext } from "react-icons";
-import Modal from "./Modal/Modal";
-import ModalContent from "./Modal/ModalContent";
+import { useMemo, useState } from 'react';
+import { CopyBlock, atomOneLight } from 'react-code-blocks';
+import { BiTrash, BiPencil, BiExpand, BiBot } from 'react-icons/bi';
+import { IconContext } from 'react-icons';
+import Modal from './Modal/Modal';
+import ModalContent from './Modal/ModalContent';
 
 export default function Note({
   noteId,
@@ -15,16 +15,16 @@ export default function Note({
   title: string;
 }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalType, setModalType] = useState("");
+  const [modalType, setModalType] = useState('');
 
   const copyBlockProps = {
     text: code,
-    language: "javascript",
+    language: 'javascript',
     showLineNumbers: true,
     theme: atomOneLight,
   };
 
-  const iconSize = useMemo(() => ({ size: "1.3em" }), []);
+  const iconSize = useMemo(() => ({ size: '1.3em' }), []);
 
   const handleButtonClick = (operation: string) => {
     setModalIsOpen(true);
@@ -33,7 +33,7 @@ export default function Note({
 
   const handleCloseModal = () => {
     setModalIsOpen(false);
-    setModalType("");
+    setModalType('');
   };
 
   return (
@@ -45,7 +45,7 @@ export default function Note({
             <button
               className=""
               title="note analysis"
-              onClick={() => handleButtonClick("analysis")}
+              onClick={() => handleButtonClick('analysis')}
             >
               <IconContext.Provider value={iconSize}>
                 <BiBot />
@@ -64,7 +64,7 @@ export default function Note({
             <button
               className=""
               title="delete note"
-              onClick={() => handleButtonClick("delete")}
+              onClick={() => handleButtonClick('delete')}
             >
               <IconContext.Provider value={iconSize}>
                 <BiTrash />

@@ -1,24 +1,24 @@
-import { useState, useRef, useContext } from "react";
-import { useAuth } from "@clerk/clerk-react";
-import { NotesContextType, NoteType } from "../@types/notes";
-import { NotesContext } from "../context/notesContext";
-import { RotatingLines } from "react-loader-spinner";
+import { useState, useRef, useContext } from 'react';
+import { useAuth } from '@clerk/clerk-react';
+import { NotesContextType, NoteType } from '../@types/notes';
+import { NotesContext } from '../context/notesContext';
+import { RotatingLines } from 'react-loader-spinner';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function NewNote() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState(false);
   const textAreaRef = useRef<HTMLTextAreaElement>(
-    document.createElement("textarea")
+    document.createElement('textarea'),
   );
   const { getToken } = useAuth();
   const { addNote } = useContext(NotesContext) as NotesContextType;
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.target.value);
-    textAreaRef.current.style.height = "inherit";
+    textAreaRef.current.style.height = 'inherit';
     const scrollHeight = textAreaRef.current.scrollHeight;
     textAreaRef.current.style.height = `${scrollHeight}px`;
   };
@@ -31,26 +31,26 @@ export default function NewNote() {
       try {
         const token = await getToken();
         const response = await fetch(`${API_URL}/api/notes`, {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
-            mode: "cors",
+            mode: 'cors',
           },
           body: JSON.stringify({ code: value }),
         });
 
         if (!response.ok) {
-          throw new Error("The server was unable to create the new note.");
+          throw new Error('The server was unable to create the new note.');
         }
 
         const newNote: NoteType = await response.json();
         addNote(newNote);
-        setValue("");
+        setValue('');
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err);
-        } else if (typeof err === "string") {
+        } else if (typeof err === 'string') {
           setError({ message: err } as Error);
         }
       }
