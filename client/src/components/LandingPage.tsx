@@ -23,7 +23,11 @@ function LandingPage() {
         </div>
         <div className="flex justify-center">
           <p className="text-base">powered by</p>
-          <img className="px-2 object-scale-down h-6" src={OpenAiLogo} />
+          <img
+            className="px-2 object-scale-down h-6"
+            src={OpenAiLogo}
+            alt="OpenAI logo"
+          />
         </div>
       </div>
     </div>

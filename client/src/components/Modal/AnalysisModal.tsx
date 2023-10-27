@@ -61,7 +61,11 @@ export default function AnalysisModal({
           <h1 className="text-xl m-2">Analysis</h1>
           <div className="flex">
             <p className="text-sm">powered by</p>
-            <img className="px-2 object-scale-down h-5" src={OpenAiLogo} />
+            <img
+              className="px-2 object-scale-down h-5"
+              src={OpenAiLogo}
+              alt="OpenAI logo"
+            />
           </div>
         </div>
 
@@ -111,7 +115,11 @@ export default function AnalysisModal({
         <h1 className="text-xl m-2">Analysis</h1>
         <div className="flex">
           <p className="text-sm">powered by</p>
-          <img className="px-2 object-scale-down h-5" src={OpenAiLogo} />
+          <img
+            className="px-2 object-scale-down h-5"
+            src={OpenAiLogo}
+            alt="OpenAI logo"
+          />
         </div>
       </div>
 
