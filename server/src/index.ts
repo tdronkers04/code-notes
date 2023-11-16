@@ -131,6 +131,8 @@ app.delete(
   },
 );
 
+// TODO app.patch route for updating notes
+
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is listening on port ${port} of ${host}`);
 });
