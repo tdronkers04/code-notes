@@ -4,6 +4,7 @@ import { BiTrash, BiPencil, BiExpand, BiBot } from 'react-icons/bi';
 import { IconContext } from 'react-icons';
 import Modal from './Modal/Modal';
 import ModalContent from './Modal/ModalContent';
+import Title from './Title';
 
 export default function Note({
   noteId,
@@ -40,7 +41,7 @@ export default function Note({
     <>
       <div className="my-5 bg-zinc-700 rounded-md w-[800px] h-[300px]">
         <div className="h-[40px] flex justify-between items-center text-zinc-50">
-          <div className="px-3">{title}</div>
+          <Title title={title} />
           <div className="px-3 flex justify-around w-[150px]">
             <button
               className=""
