@@ -133,10 +133,8 @@ app.delete(
 
 app.patch(
   '/api/notes/:id/title',
-  // ClerkExpressWithAuth,
-  // async (req: WithAuthProp<Request>, res: Response) => {
-  async (req: Request, res: Response) => {
-    // const clerkUser = await users.getUser(req.auth.userId || '');
+  ClerkExpressWithAuth(),
+  async (req: WithAuthProp<Request>, res: Response) => {
     const { id } = req.params;
 
     const updatedNote = await prisma.notes.update({
