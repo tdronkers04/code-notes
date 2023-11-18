@@ -1,8 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import { ThreeDots } from 'react-loader-spinner';
 import { NotesContext } from '../context/notesContext';
 import { NotesContextType } from '../@types/notes';
+import { BiCheckCircle, BiError } from 'react-icons/bi';
+import { IconContext } from 'react-icons';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -11,7 +13,20 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
   const { editNote } = useContext(NotesContext) as NotesContextType;
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+  const [success, setSuccess] = useState(false);
   const [newTitle, setNewTitle] = useState('');
+
+  const iconSize = useMemo(() => ({ size: '1.3em' }), []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSuccess(false);
+      setError(null);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, []);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTitle(e.target.value);
@@ -33,17 +48,15 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
       });
       const updatedNote = await response.json();
       editNote(updatedNote);
-
+      setSuccess(true);
       if (response.status !== 200) {
         throw new Error('Something went wrong updating the note title.');
       }
     } catch (err: unknown) {
       if (err instanceof Error) {
-        // setError(err);
-        alert(err);
+        setError(err);
       } else if (typeof err === 'string') {
-        // setError({ message: err } as Error);
-        alert(err);
+        setError({ message: err } as Error);
       }
     }
     setNewTitle('');
@@ -92,15 +105,34 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
   }
 
   return (
-    <div
-      className="px-3"
-      onClick={() => setEditing(true)}
-      onKeyUp={() => setEditing(true)}
-      role="button"
-      tabIndex={0}
-    >
-      {title}
-    </div>
+    <>
+      <div
+        className="px-3 flex items-center"
+        onClick={() => setEditing(true)}
+        onKeyUp={() => setEditing(true)}
+        role="button"
+        tabIndex={0}
+      >
+        {title}
+        {error && (
+          <span className="text-yellow-400 ml-5" title="please try again">
+            <IconContext.Provider value={iconSize}>
+              <BiError />
+            </IconContext.Provider>
+          </span>
+        )}
+        {success && (
+          <span
+            className="text-purple-500 ml-5"
+            title="title updated successfully"
+          >
+            <IconContext.Provider value={iconSize}>
+              <BiCheckCircle />
+            </IconContext.Provider>
+          </span>
+        )}
+      </div>
+    </>
   );
 }
 
