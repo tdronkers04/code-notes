@@ -52,7 +52,14 @@ function Notes() {
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div className="h-screen w-screen flex flex-col gap-2 justify-center items-center">
+        <h3 className="text-zinc-50 text-xl">⚠️ Error: {error.message}</h3>
+        <div className="text-zinc-50 text-lg">
+          Please refresh the page and try again.
+        </div>
+      </div>
+    );
   }
 
   return (

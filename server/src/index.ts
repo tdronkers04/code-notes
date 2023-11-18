@@ -131,6 +131,25 @@ app.delete(
   },
 );
 
+app.patch(
+  '/api/notes/:id/title',
+  ClerkExpressWithAuth(),
+  async (req: WithAuthProp<Request>, res: Response) => {
+    const { id } = req.params;
+
+    const updatedNote = await prisma.notes.update({
+      where: {
+        id: id,
+      },
+      data: {
+        title: req.body.title,
+      },
+    });
+
+    res.json(updatedNote);
+  },
+);
+
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is listening on port ${port} of ${host}`);
 });

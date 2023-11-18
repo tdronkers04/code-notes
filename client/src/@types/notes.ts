@@ -16,6 +16,7 @@ export type NotesContextType = {
   updateNotes: (notes: NoteType[]) => void;
   addNote: (note: NoteType) => void;
   deleteNote: (noteId: string) => void;
+  editNote: (updatedNote: NoteType) => void;
 };
 
 export type AnalysisType = {
