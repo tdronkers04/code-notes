@@ -86,6 +86,7 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
         onKeyUp={handleKeyPress}
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
+        maxLength={20}
       />
     );
   }
