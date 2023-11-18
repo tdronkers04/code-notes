@@ -41,7 +41,7 @@ export default function Note({
     <>
       <div className="my-5 bg-zinc-700 rounded-md w-[800px] h-[300px]">
         <div className="h-[40px] flex justify-between items-center text-zinc-50">
-          <Title title={title} />
+          <Title title={title} noteId={noteId} />
           <div className="px-3 flex justify-around w-[150px]">
             <button
               className=""

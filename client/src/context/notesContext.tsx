@@ -18,8 +18,19 @@ export const NotesProvider = ({ children }: { children: React.ReactNode }) => {
     setNotes([...notes.filter((note: NoteType) => note.id !== noteId)]);
   };
 
+  const editNote = (updatedNote: NoteType) => {
+    setNotes(
+      notes.map((note: NoteType) => {
+        if (note.id === updatedNote.id) return updatedNote;
+        return note;
+      }),
+    );
+  };
+
   return (
-    <NotesContext.Provider value={{ notes, updateNotes, addNote, deleteNote }}>
+    <NotesContext.Provider
+      value={{ notes, updateNotes, addNote, deleteNote, editNote }}
+    >
       {children}
     </NotesContext.Provider>
   );
