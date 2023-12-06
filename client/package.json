@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "lint": "eslint ./src/",
     "prettier": "prettier --write ./src/",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "bundle": "npx vite-bundle-visualizer"
   },
   "dependencies": {
     "@clerk/clerk-react": "^4.24.2",
