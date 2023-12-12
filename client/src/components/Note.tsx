@@ -1,4 +1,4 @@
-import { useMemo, useState, useCallback } from 'react';
+import { useMemo, useState } from 'react';
 import { CopyBlock, atomOneLight } from 'react-code-blocks';
 import { BiTrash, BiPencil, BiExpand, BiBot } from 'react-icons/bi';
 import { IconContext } from 'react-icons';
@@ -6,7 +6,6 @@ import { IconContext } from 'react-icons';
 import ModalContent from './Modal/ModalContent';
 import Modal from './Modal/ModalAlt';
 import Title from './Title';
-import { useClickAway } from '../utils/useClickAway';
 
 export default function Note({
   noteId,
@@ -19,12 +18,6 @@ export default function Note({
 }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modalType, setModalType] = useState('');
-
-  const memoizedCallback = useCallback(() => {
-    setModalIsOpen(false);
-  }, []);
-
-  const ref = useClickAway(memoizedCallback);
 
   const copyBlockProps = {
     text: code,
@@ -56,10 +49,7 @@ export default function Note({
           />
         </Modal>
       )}
-      <div
-        className="my-5 bg-zinc-700 rounded-md w-[800px] h-[300px]"
-        ref={ref}
-      >
+      <div className="my-5 bg-zinc-700 rounded-md w-[800px] h-[300px]">
         <div className="h-[40px] flex justify-between items-center text-zinc-50">
           <Title title={title} noteId={noteId} />
           <div className="px-3 flex justify-around w-[150px]">
