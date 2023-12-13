@@ -7,7 +7,7 @@ const NotesSkeleton = () => {
       <div className="flex flex-col justify-start items-center">
         <h1 className="py-4 text-3xl text-purple-500">Code Notes</h1>
         <ul>
-          {new Array(2).fill(null).map((_, index) => (
+          {new Array(1).fill(null).map((_, index) => (
             <li key={index}>
               <div className="my-5 bg-zinc-700 rounded-md w-[800px] h-[300px] animate-pulse"></div>
             </li>
