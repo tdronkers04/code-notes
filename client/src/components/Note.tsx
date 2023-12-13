@@ -2,8 +2,8 @@ import { useMemo, useState } from 'react';
 import { CopyBlock, atomOneLight } from 'react-code-blocks';
 import { BiTrash, BiPencil, BiExpand, BiBot } from 'react-icons/bi';
 import { IconContext } from 'react-icons';
-import Modal from './Modal/Modal';
 import ModalContent from './Modal/ModalContent';
+import Modal from './Modal/Modal';
 import Title from './Title';
 
 export default function Note({
@@ -39,6 +39,15 @@ export default function Note({
 
   return (
     <>
+      {modalIsOpen && (
+        <Modal handleClose={handleCloseModal}>
+          <ModalContent
+            type={modalType}
+            noteId={noteId}
+            handleClose={handleCloseModal}
+          />
+        </Modal>
+      )}
       <div className="my-5 bg-zinc-700 rounded-md w-[800px] h-[300px]">
         <div className="h-[40px] flex justify-between items-center text-zinc-50">
           <Title title={title} noteId={noteId} />
@@ -79,13 +88,6 @@ export default function Note({
           </div>
         </div>
       </div>
-      <Modal isOpen={modalIsOpen} handleClose={handleCloseModal}>
-        <ModalContent
-          type={modalType}
-          noteId={noteId}
-          handleClose={handleCloseModal}
-        />
-      </Modal>
     </>
   );
 }
