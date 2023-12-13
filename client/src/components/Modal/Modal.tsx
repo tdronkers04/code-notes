@@ -1,41 +1,48 @@
-import React, { useEffect, useRef } from 'react';
-import { CSSTransition } from 'react-transition-group';
-import ReactPortal from '../ReactPortal';
+import React, { useLayoutEffect, useRef } from 'react';
 
 function Modal({
   children,
-  isOpen,
   handleClose,
 }: {
   children: React.ReactNode;
-  isOpen: boolean;
   handleClose: () => void;
 }) {
   const nodeRef = useRef(null);
 
-  useEffect(() => {
-    const closeOnEscapeKey = (e: KeyboardEvent) =>
-      e.key === 'Escape' ? handleClose() : null;
-    document.body.addEventListener('keydown', closeOnEscapeKey);
-    return () => {
-      document.body.removeEventListener('keydown', closeOnEscapeKey);
+  useLayoutEffect(() => {
+    const handleEscapeKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClose();
+      }
     };
-  }, [handleClose]);
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        nodeRef.current &&
+        !(nodeRef.current as Node).contains(e.target as Node)
+      ) {
+        handleClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscapeKeyPress);
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscapeKeyPress);
+      document.body.style.overflow = 'visible';
+    };
+  }, []);
 
   return (
-    <ReactPortal wrapperId="react-portal-modal-container">
-      <CSSTransition
-        in={isOpen}
-        timeout={{ enter: 0, exit: 300 }}
-        unmountOnExit
-        classNames="modal"
-        nodeRef={nodeRef}
-      >
-        <div className="modal" ref={nodeRef}>
-          <div className="modal-content">{children}</div>
-        </div>
-      </CSSTransition>
-    </ReactPortal>
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="absolute inset-0 bg-zinc-800 bg-opacity-80"></div>
+      <div className="relative" ref={nodeRef}>
+        {children}
+      </div>
+    </div>
   );
 }
 
