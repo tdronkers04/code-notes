@@ -26,7 +26,7 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
     }, 5000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [success, error]);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewTitle(e.target.value);
@@ -113,6 +113,7 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
         onKeyUp={() => setEditing(true)}
         role="button"
         tabIndex={0}
+        title="edit note title"
       >
         {title}
         {error && (
