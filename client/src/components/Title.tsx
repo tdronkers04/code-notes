@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo } from 'react';
+import React, { useState, useContext, useEffect, useMemo, useRef } from 'react';
 import { useAuth } from '@clerk/clerk-react';
 import { ThreeDots } from 'react-loader-spinner';
 import { NotesContext } from '../context/notesContext';
@@ -18,6 +18,7 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
   const [newTitle, setNewTitle] = useState('');
 
   const iconSize = useMemo(() => ({ size: '1.3em' }), []);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -65,14 +66,23 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      setEditing(false);
-      handleApiRequest();
+      const inputElement = e.target as HTMLInputElement;
+      if (inputElement.validity.patternMismatch) {
+        inputRef.current?.focus();
+      } else {
+        setEditing(false);
+        handleApiRequest();
+      }
     }
   };
 
-  const handleOnBlur = () => {
-    setEditing(false);
-    handleApiRequest();
+  const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (e.target.validity.patternMismatch) {
+      inputRef.current?.focus();
+    } else {
+      setEditing(false);
+      handleApiRequest();
+    }
   };
 
   if (editing) {
@@ -86,7 +96,10 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
         onKeyUp={handleKeyPress}
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
+        pattern="^\S{1,20}$"
+        minLength={1}
         maxLength={20}
+        ref={inputRef}
       />
     );
   }
