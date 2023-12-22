@@ -88,13 +88,14 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
   if (editing) {
     return (
       <input
-        className="ml-3 px-1 text-black"
+        className="ml-3 px-1 text-black focus:outline-none focus:ring-2 focus:ring-purple-500 "
         type="text"
         placeholder={title}
         onChange={handleInput}
         onBlur={handleOnBlur}
         onKeyUp={handleKeyPress}
-        // autoFocus
+        // eslint-disable-next-line jsx-a11y/no-autofocus
+        autoFocus
         maxLength={20}
         ref={inputRef}
       />
