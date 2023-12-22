@@ -16,6 +16,7 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
   const [error, setError] = useState<Error | null>(null);
   const [success, setSuccess] = useState(false);
   const [newTitle, setNewTitle] = useState('');
+  const [validationError, setValidationError] = useState(false);
 
   const iconSize = useMemo(() => ({ size: '1.3em' }), []);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -68,8 +69,10 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       if (newTitle.length < minimumTitleLength) {
+        setValidationError(true);
         inputRef.current?.focus();
       } else {
+        setValidationError(false);
         setEditing(false);
         handleApiRequest();
       }
@@ -78,8 +81,10 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
 
   const handleOnBlur = () => {
     if (newTitle.length < minimumTitleLength) {
+      setValidationError(true);
       inputRef.current?.focus();
     } else {
+      setValidationError(false);
       setEditing(false);
       handleApiRequest();
     }
@@ -87,18 +92,30 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
 
   if (editing) {
     return (
-      <input
-        className="ml-3 px-1 text-black focus:outline-none focus:ring-2 focus:ring-purple-500 "
-        type="text"
-        placeholder={title}
-        onChange={handleInput}
-        onBlur={handleOnBlur}
-        onKeyUp={handleKeyPress}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus
-        maxLength={20}
-        ref={inputRef}
-      />
+      <div className="flex gap-0 items-center">
+        <input
+          className="ml-3 px-1 text-black focus:outline-none focus:ring-2 focus:ring-purple-500 "
+          type="text"
+          placeholder={title}
+          onChange={handleInput}
+          onBlur={handleOnBlur}
+          onKeyUp={handleKeyPress}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus
+          maxLength={20}
+          ref={inputRef}
+        />
+        {validationError && (
+          <span
+            className="text-yellow-400 ml-5"
+            title="new title must be at least one character!"
+          >
+            <IconContext.Provider value={iconSize}>
+              <BiError />
+            </IconContext.Provider>
+          </span>
+        )}
+      </div>
     );
   }
 
