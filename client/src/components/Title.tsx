@@ -19,6 +19,7 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
 
   const iconSize = useMemo(() => ({ size: '1.3em' }), []);
   const inputRef = useRef<HTMLInputElement>(null);
+  const minimumTitleLength = 1;
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -66,8 +67,7 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      const inputElement = e.target as HTMLInputElement;
-      if (inputElement.validity.patternMismatch) {
+      if (newTitle.length < minimumTitleLength) {
         inputRef.current?.focus();
       } else {
         setEditing(false);
@@ -76,8 +76,8 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
     }
   };
 
-  const handleOnBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (e.target.validity.patternMismatch) {
+  const handleOnBlur = () => {
+    if (newTitle.length < minimumTitleLength) {
       inputRef.current?.focus();
     } else {
       setEditing(false);
@@ -94,10 +94,7 @@ function Title({ noteId, title }: { noteId: string; title: string }) {
         onChange={handleInput}
         onBlur={handleOnBlur}
         onKeyUp={handleKeyPress}
-        // eslint-disable-next-line jsx-a11y/no-autofocus
-        autoFocus
-        pattern="^\S{1,20}$"
-        minLength={1}
+        // autoFocus
         maxLength={20}
         ref={inputRef}
       />
